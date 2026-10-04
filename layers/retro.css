@@ -403,6 +403,26 @@ textarea {
   margin: 4px 0;
 }
 
+/* The real count (from controller.js) replaces the fake one when available */
+.visitor-counter {
+  display: inline-block;
+  margin: 8px 0 !important;
+  padding: 2px 8px;
+  background: #000000;
+  color: #00ff00;
+  font-family: "Courier New", Courier, monospace;
+  letter-spacing: 1px;
+  border: 3px inset #808080;
+}
+
+.visitor-counter[hidden] {
+  display: none;
+}
+
+html[data-counter="live"] .site-footer::after {
+  display: none;
+}
+
 .site-footer::after {
   content: "You are visitor number 0 0 4 2 1 7";
   display: inline-block;

@@ -692,6 +692,11 @@ textarea:focus {
   margin: 0 0 0.4rem;
 }
 
+.visitor-counter {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
 /* ---------- Hooks for the JavaScript layer ----------
    app.js only adds and removes these classes; how they look lives here. */
 .reveal {

@@ -231,14 +231,43 @@
     box.replaceChildren(...nodes);
   }
 
+  // Visit counting via GoatCounter: privacy-friendly, no cookies, ignores localhost.
+  // The page script records the visit; the public counter endpoint returns the total.
+  const GOATCOUNTER = 'https://ademkoca.goatcounter.com';
+
+  function startCounter() {
+    const script = document.createElement('script');
+    script.async = true;
+    script.dataset.goatcounter = `${GOATCOUNTER}/count`;
+    script.src = '//gc.zgo.at/count.js';
+    document.head.append(script);
+
+    // Needs "Allow adding visitor counts on public pages" enabled in GoatCounter.
+    // If the request fails, nothing is shown and the 90s layer keeps its fake counter.
+    fetch(`${GOATCOUNTER}/counter/${encodeURIComponent(location.pathname)}.json`)
+      .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+      .then(({ count }) => {
+        const box = document.querySelector('[data-visitor-counter]');
+        if (!box || !count) return;
+        box.textContent = `Visitors so far: ${count}`;
+        box.hidden = false;
+        document.documentElement.dataset.counter = 'live';
+      })
+      .catch(() => {});
+  }
+
   // Start loading the stylesheet straight away to avoid a flash of unstyled content
   // when the page is opened at a styled layer.
   const initial = stageFromUrl();
   if (STAGES[initial].css) setStylesheet(STAGES[initial].css);
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => go(initial));
-  } else {
+  const start = () => {
     go(initial);
+    startCounter();
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
   }
 })();
