@@ -1,0 +1,404 @@
+/* 90s styling layer: the web around 1996, recreated.
+   In 1996 this look was built with presentational HTML: <font>, <center>,
+   bgcolor and nested layout tables. Here one stylesheet does it all,
+   so the HTML stays exactly the same. */
+
+html {
+  background: #c0c0c0 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='8' height='8' fill='%23c0c0c0'/%3E%3Crect width='1' height='1' fill='%23b0b0b0'/%3E%3Crect x='4' y='4' width='1' height='1' fill='%23d0d0d0'/%3E%3C/svg%3E");
+}
+
+body {
+  margin: 0;
+  color: #000000;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+a {
+  color: #0000ee;
+}
+
+a:visited {
+  color: #551a8b;
+}
+
+a:active {
+  color: #ff0000;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+}
+
+.skip-link:focus {
+  left: 8px;
+  top: 8px;
+  z-index: 100;
+  background: #ffff00;
+  padding: 4px;
+}
+
+/* ---------- Toolbar: a Windows 95-style window ---------- */
+.layer-controls--top {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #c0c0c0;
+  border: 2px outset #ffffff;
+  font-family: Tahoma, "MS Sans Serif", Arial, sans-serif;
+  font-size: 13px;
+  padding: 0 0 4px;
+}
+
+.layer-controls--bottom {
+  display: none;
+}
+
+.layer-controls p {
+  margin: 4px 6px;
+}
+
+.layer-status {
+  margin: 0 !important;
+  padding: 3px 6px;
+  background: linear-gradient(90deg, #000080, #1084d0);
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.layer-btn {
+  font-family: Tahoma, "MS Sans Serif", Arial, sans-serif;
+  font-size: 13px;
+  background: #c0c0c0;
+  color: #000000;
+  border: 2px outset #ffffff;
+  padding: 3px 12px;
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+.layer-btn:active {
+  border-style: inset;
+}
+
+.layer-btn--primary {
+  font-weight: bold;
+  outline: 1px solid #000000;
+}
+
+.layer-note {
+  color: #404040;
+}
+
+@media (max-width: 640px) {
+  .layer-note {
+    display: none;
+  }
+}
+
+.what-changed {
+  margin: 4px 6px 0;
+}
+
+.what-changed summary {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #0000ee;
+}
+
+.what-changed__body {
+  max-height: 45vh;
+  overflow: auto;
+  background: #ffffff;
+  border: 2px inset #ffffff;
+  padding: 6px 8px;
+  margin-top: 4px;
+}
+
+.what-changed__body pre {
+  margin: 0;
+}
+
+/* ---------- Header: centred, Comic Sans, under construction ---------- */
+.site-header {
+  text-align: center;
+  padding: 16px 8px 8px;
+}
+
+.kicker {
+  font-family: "Courier New", Courier, monospace;
+  color: #800000;
+}
+
+.site-header h1 {
+  font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", cursive;
+  font-size: 44px;
+  color: #000080;
+  text-shadow: 2px 2px 0 #ffff00;
+  margin: 8px 0;
+}
+
+.lead {
+  font-style: italic;
+}
+
+.site-header::after {
+  content: "🚧 This site is UNDER CONSTRUCTION 🚧";
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 14px;
+  background: #ffff99;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  border: 8px solid #000000;
+  border-image: repeating-linear-gradient(45deg, #ffcc00 0 10px, #000000 10px 20px) 8;
+}
+
+/* ---------- Layout: the classic two-column "table" ---------- */
+.page {
+  max-width: 800px;
+  margin: 12px auto;
+  background: #ffffff;
+  border: 3px outset #dddddd;
+}
+
+@media (min-width: 760px) {
+  .page {
+    display: table;
+    width: min(800px, 100% - 16px);
+  }
+
+  .toc,
+  main {
+    display: table-cell;
+    vertical-align: top;
+  }
+
+  .toc {
+    width: 190px;
+    border-right: 3px ridge #c0c0c0;
+  }
+}
+
+.toc {
+  background: #000080;
+  color: #ffffff;
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+.toc h2 {
+  font-size: 16px;
+  color: #ffff00;
+  margin: 0 0 6px;
+  text-align: center;
+}
+
+.toc ol {
+  padding-left: 22px;
+  margin: 0;
+}
+
+.toc li {
+  margin-bottom: 6px;
+}
+
+.toc a,
+.toc a:visited {
+  color: #00ffff;
+}
+
+main {
+  padding: 10px 16px;
+}
+
+main > section {
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 3px groove #c0c0c0;
+}
+
+main > section:last-child {
+  border-bottom: 0;
+}
+
+h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #800000;
+  font-size: 22px;
+}
+
+.era {
+  color: #ff0000;
+}
+
+/* <blink>, back from the dead. Respectful of people who'd rather it wasn't. */
+#css h2::after {
+  content: " NEW!";
+  color: #ff0000;
+  font-size: 14px;
+  vertical-align: super;
+  animation: retro-blink 1s steps(1) infinite;
+}
+
+@keyframes retro-blink {
+  50% {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #css h2::after {
+    animation: none;
+  }
+}
+
+/* ---------- Content ---------- */
+img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #000080;
+}
+
+figure {
+  text-align: center;
+  margin: 12px 0;
+}
+
+figcaption {
+  font-size: 13px;
+  font-style: italic;
+}
+
+figure.quote {
+  text-align: left;
+  background: #ffffcc;
+  border: 1px dashed #808080;
+  padding: 6px 10px;
+}
+
+blockquote {
+  margin: 0 0 4px 20px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+code {
+  font-family: "Courier New", Courier, monospace;
+  color: #008000;
+}
+
+pre {
+  background: #000000;
+  color: #00ff00;
+  padding: 8px;
+  overflow-x: auto;
+  border: 2px inset #c0c0c0;
+}
+
+pre code {
+  color: inherit;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  border: 3px outset #dddddd;
+  border-spacing: 2px;
+  background: #ffffff;
+  font-size: 14px;
+}
+
+caption {
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 4px;
+}
+
+th {
+  background: #000080;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 3px 6px;
+}
+
+td {
+  border: 1px inset #c0c0c0;
+  padding: 3px 6px;
+  vertical-align: top;
+}
+
+tbody tr:nth-child(odd) td {
+  background: #e0e0ff;
+}
+
+.stats {
+  padding-left: 20px;
+}
+
+.stat-number {
+  font-family: "Courier New", Courier, monospace;
+  background: #000000;
+  color: #00ff00;
+  padding: 0 4px;
+  border: 2px inset #c0c0c0;
+}
+
+fieldset {
+  border: 2px groove #c0c0c0;
+  background: #f0f0f0;
+}
+
+legend {
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+fieldset p {
+  margin: 4px 0;
+}
+
+textarea {
+  font-family: "Courier New", Courier, monospace;
+  border: 2px inset #c0c0c0;
+  max-width: 100%;
+}
+
+#poll-form button {
+  font-family: Tahoma, "MS Sans Serif", Arial, sans-serif;
+  background: #c0c0c0;
+  border: 2px outset #ffffff;
+  padding: 3px 14px;
+  cursor: pointer;
+}
+
+#poll-form button:active {
+  border-style: inset;
+}
+
+/* ---------- Footer: the obligatory visitor counter ---------- */
+.site-footer {
+  text-align: center;
+  font-size: 13px;
+  padding: 8px 8px 24px;
+}
+
+.site-footer p {
+  margin: 4px 0;
+}
+
+.site-footer::after {
+  content: "You are visitor number 0 0 4 2 1 7";
+  display: inline-block;
+  margin-top: 8px;
+  padding: 2px 8px;
+  background: #000000;
+  color: #00ff00;
+  font-family: "Courier New", Courier, monospace;
+  letter-spacing: 1px;
+  border: 3px inset #808080;
+}

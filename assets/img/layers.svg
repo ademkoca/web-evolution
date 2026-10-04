@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" width="480" height="300" font-family="Helvetica, Arial, sans-serif">
+  <rect width="480" height="300" fill="#f3f1fb"/>
+  <polygon points="80,190 240,230 240,248 80,208" fill="#c2460a"/>
+  <polygon points="240,230 400,190 400,208 240,248" fill="#a33b08"/>
+  <polygon points="240,150 400,190 240,230 80,190" fill="#e8590c"/>
+  <polygon points="80,130 240,170 240,188 80,148" fill="#1864ab"/>
+  <polygon points="240,170 400,130 400,148 240,188" fill="#14528c"/>
+  <polygon points="240,90 400,130 240,170 80,130" fill="#1c7ed6"/>
+  <polygon points="80,70 240,110 240,128 80,88" fill="#b38600"/>
+  <polygon points="240,110 400,70 400,88 240,128" fill="#8f6b00"/>
+  <polygon points="240,30 400,70 240,110 80,70" fill="#f2c94c"/>
+  <text x="240" y="222" text-anchor="middle" font-size="20" font-weight="700" fill="#ffffff">HTML</text>
+  <text x="410" y="195" font-size="13" fill="#a33b08">structure</text>
+  <text x="240" y="160" text-anchor="middle" font-size="20" font-weight="700" fill="#ffffff">CSS</text>
+  <text x="410" y="135" font-size="13" fill="#14528c">style</text>
+  <text x="240" y="77" text-anchor="middle" font-size="20" font-weight="700" fill="#3d2e00">JS</text>
+  <text x="410" y="75" font-size="13" fill="#5c4500">behaviour</text>
+  <text x="240" y="284" text-anchor="middle" font-size="15" fill="#3b3a4f">Same content, three layers</text>
+</svg>

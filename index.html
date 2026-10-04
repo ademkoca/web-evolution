@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Evolution of the Web</title>
+  <meta name="description" content="An interactive page that lets you add and remove HTML, CSS and JavaScript layers to see what each one does.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <!-- The only script that is always on: it switches layers, nothing else. -->
+  <script src="controller.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="layer-controls layer-controls--top" aria-label="Layers">
+    <p class="layer-status" data-layer-status aria-live="polite"></p>
+    <p class="layer-buttons" data-layer-buttons></p>
+    <noscript>
+      <p>JavaScript is turned off, so the layer buttons can't work. You're seeing the HTML layer, and that's HTML's strength: it works everywhere.</p>
+    </noscript>
+    <p class="layer-note"><small>These buttons run on a few lines of JavaScript. It's the only script that's always on, and all it does is switch layers.</small></p>
+    <details class="what-changed">
+      <summary>What just changed?</summary>
+      <div class="what-changed__body" data-what-changed>
+        <p>Nothing yet.</p>
+      </div>
+    </details>
+  </nav>
+
+  <header class="site-header" id="top">
+    <p class="kicker">An interactive history</p>
+    <h1>The Evolution of the Web</h1>
+    <p class="lead">One page, three languages, thirty-five years. Add and remove the layers that make up a website and watch what each one does.</p>
+  </header>
+
+  <div class="page">
+    <nav class="toc" aria-labelledby="toc-title">
+      <h2 id="toc-title">Contents</h2>
+      <ol>
+        <li><a href="#intro">An experiment in layers</a></li>
+        <li><a href="#html">HTML gives the web structure</a></li>
+        <li><a href="#nineties">The 90s web</a></li>
+        <li><a href="#css">CSS separates content and style</a></li>
+        <li><a href="#javascript">JavaScript makes pages behave</a></li>
+        <li><a href="#timeline">Milestones</a></li>
+        <li><a href="#numbers">By the numbers</a></li>
+        <li><a href="#poll">Your turn</a></li>
+        <li><a href="#progressive">Every layer is optional</a></li>
+      </ol>
+    </nav>
+
+    <main id="main">
+      <section id="intro">
+        <h2>An experiment in layers</h2>
+        <p>Every website you visit is built from three languages, stacked on top of each other. <strong>HTML</strong> describes what the content <em>is</em>. <strong>CSS</strong> describes how it <em>looks</em>. <strong>JavaScript</strong> describes how it <em>behaves</em>.</p>
+        <p>This page lets you add and remove those layers yourself. The words, images and tables stay exactly the same the whole time. Only the layers change, so you can see what each one contributes.</p>
+        <ol>
+          <li>Start with <strong>HTML only</strong>, the way browsers showed pages in the early 1990s.</li>
+          <li>Add <strong>90s styling</strong> to see how the web looked around 1996.</li>
+          <li>Add <strong>modern CSS</strong> for today's layout, colour and typography.</li>
+          <li>Add <strong>JavaScript</strong> for interaction and a little motion.</li>
+        </ol>
+        <figure>
+          <img src="assets/img/layers.svg" width="480" height="300" alt="Three stacked layers labelled HTML at the bottom, CSS in the middle and JS on top.">
+          <figcaption>The three layers of a web page: structure, presentation and behaviour.</figcaption>
+        </figure>
+      </section>
+
+      <section id="html">
+        <h2><span class="era">1991</span> HTML gives the web its structure</h2>
+        <p>In March 1989, Tim Berners-Lee, a software engineer at CERN, wrote a proposal for a system to help physicists share documents. By the end of 1990 he had a working web server, a browser called WorldWideWeb, and a simple language to write pages in: HTML, the HyperText Markup Language.</p>
+        <p>In August 1991 the project was announced publicly, and the first website, at <code>info.cern.ch</code>, explained what the web was. It began:</p>
+        <figure class="quote">
+          <blockquote cite="http://info.cern.ch/hypertext/WWW/TheProject.html">
+            <p>The WorldWideWeb (W3) is a wide-area hypermedia information retrieval initiative aiming to give universal access to a large universe of documents.</p>
+          </blockquote>
+          <figcaption>From the first web page, <cite>info.cern.ch</cite>, 1991</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/img/next-computer.svg" width="480" height="320" alt="Illustration of a black cube-shaped computer next to a monitor showing a simple text document with links.">
+          <figcaption>The first web server and browser ran on a NeXT computer at CERN (illustration).</figcaption>
+        </figure>
+        <p>HTML says nothing about colour or layout. It only says what each piece of content is:</p>
+        <ul>
+          <li><code>&lt;h1&gt;</code> to <code>&lt;h6&gt;</code> for headings</li>
+          <li><code>&lt;p&gt;</code> for paragraphs</li>
+          <li><code>&lt;a&gt;</code> for links to other documents, the "hyper" in hypertext</li>
+          <li><code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code> and <code>&lt;li&gt;</code> for lists</li>
+          <li><code>&lt;img&gt;</code> for images, added in 1993 with the Mosaic browser</li>
+        </ul>
+        <p>That's still true today. A working HTML page can be this short:</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;My first page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello, web!&lt;/h1&gt;
+    &lt;p&gt;This is a &lt;a href="https://info.cern.ch"&gt;link&lt;/a&gt;.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        <p>Browsers come with built-in default styles for every element: headings are big and bold, links are blue and underlined. That's why a page with no CSS at all is still readable.</p>
+      </section>
+
+      <section id="nineties">
+        <h2><span class="era">1994–1999</span> The 90s web: tables, fonts and GIFs</h2>
+        <p>In 1993 the Mosaic browser showed images and text on the same page, and the web took off. Its developers went on to build Netscape Navigator in 1994, and Microsoft answered with Internet Explorer in 1995. The two companies raced each other to add features, and that rivalry became known as the browser wars.</p>
+        <p>There was no good way to style pages yet, so authors used what HTML offered, plus some tricks it was never designed for:</p>
+        <ul>
+          <li><code>&lt;font face="Arial" color="red"&gt;</code> to change text, one tag at a time</li>
+          <li><code>&lt;table&gt;</code> layouts to place columns and sidebars, often nested many levels deep</li>
+          <li>transparent 1×1 "spacer GIFs", stretched to push things into position</li>
+          <li><code>bgcolor</code> and tiled background images on the <code>&lt;body&gt;</code></li>
+          <li>Netscape's <code>&lt;blink&gt;</code> and Internet Explorer's <code>&lt;marquee&gt;</code></li>
+        </ul>
+        <p>Pages often had a visitor counter, a guestbook and an animated "under construction" sign. Content and presentation were tangled together, so changing a site's look meant editing every single page.</p>
+        <figure>
+          <img src="assets/img/browser-90s.svg" width="480" height="320" alt="Illustration of an old grey browser window showing a personal homepage with a welcome heading, an under construction sign and a visitor counter.">
+          <figcaption>A typical personal homepage, around 1996 (illustration).</figcaption>
+        </figure>
+        <p>The 90s styling layer recreates that look. Back then it took presentational HTML; here it comes from one stylesheet, so the HTML doesn't have to change.</p>
+      </section>
+
+      <section id="css">
+        <h2><span class="era">1996</span> CSS separates content from presentation</h2>
+        <p>In October 1994, Håkon Wium Lie, who was working with Tim Berners-Lee at CERN, proposed Cascading HTML Style Sheets. Bert Bos joined him, and in December 1996 CSS level 1 became a W3C Recommendation.</p>
+        <p>The idea is simple: HTML says what things are, and a separate stylesheet says how they look. One rule can style every heading on every page of a site:</p>
+<pre><code>h2 {
+  font-family: system-ui, sans-serif;
+  color: #5b4bdb;
+  border-bottom: 2px solid currentColor;
+}</code></pre>
+        <p>Browser support was patchy for years, so table layouts survived well into the 2000s. Then CSS gained the features that made modern design possible:</p>
+        <ul>
+          <li>CSS2 (1998) brought positioning and media types.</li>
+          <li>Media queries made responsive design possible. Ethan Marcotte coined the term "responsive web design" in 2010.</li>
+          <li>Flexbox and Grid replaced layout hacks with real layout tools. Grid shipped in all major browsers in 2017.</li>
+          <li>Custom properties (CSS variables) let one value, such as a theme colour, control a whole design.</li>
+        </ul>
+        <p>Switching between 90s styling and modern CSS shows the idea at work: the same HTML gets two completely different designs.</p>
+      </section>
+
+      <section id="javascript">
+        <h2><span class="era">1995</span> JavaScript makes pages behave</h2>
+        <p>In May 1995, Brendan Eich wrote the first version of JavaScript at Netscape in about ten days. It was briefly called Mocha, then LiveScript, and was renamed JavaScript before Netscape Navigator 2.0 was released. It was standardised as ECMAScript in 1997.</p>
+        <p>JavaScript can read and change a page while you're looking at it, through the Document Object Model (DOM). Early uses were small, such as checking forms and swapping images on hover. Over the following years it changed what the web could do:</p>
+        <ul>
+          <li>2005: Jesse James Garrett named "Ajax", pages that fetch data without reloading. Gmail and Google Maps were early examples.</li>
+          <li>2006: jQuery smoothed over the differences between browsers.</li>
+          <li>2008: Google Chrome launched with V8, a much faster JavaScript engine.</li>
+          <li>2009: Node.js let JavaScript run on servers.</li>
+          <li>2015: ES2015 (ES6) added modules, classes, arrow functions and promises.</li>
+        </ul>
+        <p>Used well, JavaScript makes a page more helpful without getting in the way. Used carelessly, it makes pages slow and fragile. The JavaScript layer on this page adds only a few small things, and each one is marked with a ⚡ JS label.</p>
+      </section>
+
+      <section id="timeline">
+        <h2>Milestones</h2>
+        <div class="table-wrap">
+          <table id="milestones-table">
+            <caption>Key moments in web history</caption>
+            <thead>
+              <tr>
+                <th scope="col">Year</th>
+                <th scope="col">Technology</th>
+                <th scope="col">Milestone</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1989</td><td>Web</td><td>Tim Berners-Lee proposes an information system at CERN</td></tr>
+              <tr><td>1990</td><td>HTML</td><td>The first web server and browser run at CERN</td></tr>
+              <tr><td>1991</td><td>HTML</td><td>The first website, info.cern.ch, goes public</td></tr>
+              <tr><td>1993</td><td>HTML</td><td>NCSA Mosaic shows images and text on the same page</td></tr>
+              <tr><td>1994</td><td>Web</td><td>Netscape Navigator is released and the W3C is founded</td></tr>
+              <tr><td>1994</td><td>CSS</td><td>Håkon Wium Lie proposes Cascading HTML Style Sheets</td></tr>
+              <tr><td>1995</td><td>JavaScript</td><td>Brendan Eich creates JavaScript at Netscape</td></tr>
+              <tr><td>1995</td><td>Web</td><td>Microsoft releases Internet Explorer 1.0</td></tr>
+              <tr><td>1996</td><td>CSS</td><td>CSS level 1 becomes a W3C Recommendation</td></tr>
+              <tr><td>1997</td><td>JavaScript</td><td>ECMAScript 1 standardises the language</td></tr>
+              <tr><td>1998</td><td>CSS</td><td>CSS2 adds positioning and media types</td></tr>
+              <tr><td>2005</td><td>JavaScript</td><td>"Ajax" is named: pages update without reloading</td></tr>
+              <tr><td>2008</td><td>JavaScript</td><td>Chrome launches with the V8 engine</td></tr>
+              <tr><td>2010</td><td>CSS</td><td>Ethan Marcotte coins "responsive web design"</td></tr>
+              <tr><td>2014</td><td>HTML</td><td>HTML5 becomes a W3C Recommendation</td></tr>
+              <tr><td>2015</td><td>JavaScript</td><td>ES2015 modernises the language</td></tr>
+              <tr><td>2017</td><td>CSS</td><td>CSS Grid ships in all major browsers</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="numbers">
+        <h2>By the numbers</h2>
+        <ul class="stats">
+          <li><strong class="stat-number" data-count="18">18</strong> <span>elements described in the first HTML document, "HTML Tags", in 1991</span></li>
+          <li><strong class="stat-number" data-count="10">10</strong> <span>days to write the first version of JavaScript</span></li>
+          <li><strong class="stat-number" data-count="2">2</strong> <span>years from the first CSS proposal to CSS level 1</span></li>
+          <li><strong class="stat-number" data-count="3">3</strong> <span>core languages every browser understands: HTML, CSS and JavaScript</span></li>
+        </ul>
+      </section>
+
+      <section id="poll">
+        <h2>Your turn</h2>
+        <form id="poll-form" action="#poll" method="get">
+          <input type="hidden" name="layer" value="html">
+          <fieldset>
+            <legend>Which layer surprised you most?</legend>
+            <p><label><input type="radio" name="choice" value="html" required> Plain HTML</label></p>
+            <p><label><input type="radio" name="choice" value="retro"> 90s styling</label></p>
+            <p><label><input type="radio" name="choice" value="css"> Modern CSS</label></p>
+            <p><label><input type="radio" name="choice" value="js"> JavaScript</label></p>
+          </fieldset>
+          <p>
+            <label for="poll-why">Why? (optional)</label><br>
+            <textarea id="poll-why" name="why" rows="3" cols="40" maxlength="140"></textarea>
+          </p>
+          <p><button type="submit">Send my answer</button></p>
+        </form>
+        <p>Without JavaScript, a form can only send its answers off and load a new page. There's no server behind this one, so you'll just land back here. With JavaScript, the form can respond instantly.</p>
+      </section>
+
+      <section id="progressive">
+        <h2>Every layer is optional</h2>
+        <p>Did you notice that the page worked at every step? With only HTML you could read every word, follow every link and send the form. CSS made it easier and nicer to read, and JavaScript made it more interactive, but neither was required.</p>
+        <p>This approach is called <dfn>progressive enhancement</dfn>: start with content that works everywhere, then add layers for the browsers and people that can use them. It makes sites faster, sturdier and more accessible. If a stylesheet fails to load or a script breaks, the content is still there.</p>
+        <figure class="quote">
+          <blockquote>
+            <p>The power of the Web is in its universality. Access by everyone regardless of disability is an essential aspect.</p>
+          </blockquote>
+          <figcaption>Tim Berners-Lee, at the launch of the W3C Web Accessibility Initiative, 1997</figcaption>
+        </figure>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Built with HTML, CSS and JavaScript, added in that order.</p>
+    <p>No frameworks or build tools were used. The illustrations are simple SVG drawings made for this page.</p>
+    <p><a href="#top">Back to top ↑</a></p>
+  </footer>
+
+  <nav class="layer-controls layer-controls--bottom" aria-label="Layers (bottom of page)">
+    <p class="layer-status" data-layer-status></p>
+    <p class="layer-buttons" data-layer-buttons></p>
+  </nav>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="480" height="320" font-family="Helvetica, Arial, sans-serif">
+  <rect width="480" height="320" fill="#ecebf3"/>
+  <rect x="0" y="262" width="480" height="58" fill="#d6d4e2"/>
+  <!-- cube -->
+  <polygon points="40,150 140,150 140,262 40,262" fill="#1a1a1f"/>
+  <polygon points="140,150 168,132 168,244 140,262" fill="#2c2c33"/>
+  <polygon points="40,150 68,132 168,132 140,150" fill="#3a3a44"/>
+  <text x="90" y="212" text-anchor="middle" font-size="16" font-weight="700" fill="#e64980" letter-spacing="2">NeXT</text>
+  <!-- monitor -->
+  <rect x="200" y="40" width="240" height="190" rx="8" fill="#22222a"/>
+  <rect x="214" y="54" width="212" height="160" fill="#f8f8f5"/>
+  <rect x="300" y="230" width="40" height="22" fill="#2c2c33"/>
+  <rect x="270" y="250" width="100" height="12" rx="3" fill="#1a1a1f"/>
+  <!-- document on screen -->
+  <rect x="214" y="54" width="212" height="16" fill="#9a9aa6"/>
+  <text x="222" y="66" font-size="10" fill="#ffffff">WorldWideWeb</text>
+  <text x="224" y="92" font-size="13" font-weight="700" fill="#111">World Wide Web</text>
+  <rect x="224" y="104" width="180" height="5" fill="#555"/>
+  <rect x="224" y="114" width="150" height="5" fill="#555"/>
+  <rect x="224" y="124" width="60" height="5" fill="#1c4fd6"/>
+  <rect x="290" y="124" width="100" height="5" fill="#555"/>
+  <rect x="224" y="142" width="170" height="5" fill="#555"/>
+  <rect x="224" y="152" width="80" height="5" fill="#555"/>
+  <rect x="310" y="152" width="70" height="5" fill="#1c4fd6"/>
+  <rect x="224" y="170" width="120" height="5" fill="#1c4fd6"/>
+  <rect x="224" y="180" width="160" height="5" fill="#555"/>
+  <!-- keyboard -->
+  <rect x="220" y="272" width="200" height="22" rx="4" fill="#2c2c33"/>
+</svg>
