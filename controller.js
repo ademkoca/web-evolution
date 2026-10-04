@@ -240,15 +240,21 @@
     script.async = true;
     script.dataset.goatcounter = `${GOATCOUNTER}/count`;
     script.src = '//gc.zgo.at/count.js';
+    // Give the script a moment to record this visit before asking for the total.
+    script.onload = () => setTimeout(showCount, 1000);
     document.head.append(script);
+  }
 
-    // Needs "Allow adding visitor counts on public pages" enabled in GoatCounter.
-    // If the request fails, nothing is shown and the 90s layer keeps its fake counter.
+  // Needs "Allow adding visitor counts on public pages" enabled in GoatCounter.
+  // GoatCounter answers 404 (with a count of 0) for pages it hasn't seen yet,
+  // so the body is read whatever the status. Nothing is shown unless the count is above 0;
+  // the 90s layer then keeps its fake counter.
+  function showCount() {
     fetch(`${GOATCOUNTER}/counter/${encodeURIComponent(location.pathname)}.json`)
-      .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+      .then((res) => res.json())
       .then(({ count }) => {
         const box = document.querySelector('[data-visitor-counter]');
-        if (!box || !count) return;
+        if (!box || !(parseInt(String(count).replace(/\D/g, ''), 10) > 0)) return;
         box.textContent = `Visitors so far: ${count}`;
         box.hidden = false;
         document.documentElement.dataset.counter = 'live';
