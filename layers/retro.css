@@ -96,6 +96,18 @@ a:active {
   .layer-note {
     display: none;
   }
+
+  .what-changed__body {
+    max-height: 24vh;
+  }
+
+  .what-changed__body pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    overflow-x: hidden;
+    font-size: 11px;
+    max-height: 7rem;
+  }
 }
 
 .what-changed {
