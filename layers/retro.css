@@ -7,6 +7,10 @@ html {
   background: #c0c0c0 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='8' height='8' fill='%23c0c0c0'/%3E%3Crect width='1' height='1' fill='%23b0b0b0'/%3E%3Crect x='4' y='4' width='1' height='1' fill='%23d0d0d0'/%3E%3C/svg%3E");
 }
 
+html {
+  scroll-padding-top: 9rem;
+}
+
 body {
   margin: 0;
   color: #000000;
@@ -121,7 +125,7 @@ a:active {
 }
 
 .what-changed__body {
-  max-height: 45vh;
+  max-height: 30vh;
   overflow: auto;
   background: #ffffff;
   border: 2px inset #ffffff;
@@ -433,4 +437,59 @@ html[data-counter="live"] .site-footer::after {
   font-family: "Courier New", Courier, monospace;
   letter-spacing: 1px;
   border: 3px inset #808080;
+}
+
+/* ---------- Era timeline and era card (appear on every layer) ---------- */
+.era-timeline {
+  margin: 4px 6px;
+}
+
+.era-timeline ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.era-timeline button {
+  font-family: Tahoma, "MS Sans Serif", Arial, sans-serif;
+  font-size: 11px;
+  background: #c0c0c0;
+  color: #000000;
+  border: 2px outset #ffffff;
+  padding: 1px 7px;
+  cursor: pointer;
+}
+
+.era-timeline button[aria-current="step"] {
+  border-style: inset;
+  font-weight: bold;
+  background: #a8a8a8;
+}
+
+.era-card {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 2px 12px;
+  margin: 0 0 8px;
+  padding: 4px 8px;
+  border: 1px dashed #808080;
+}
+
+.era-card dt {
+  font-weight: bold;
+}
+
+.era-card dd {
+  margin: 0;
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .era-card {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
 }

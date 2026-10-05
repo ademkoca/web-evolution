@@ -5,43 +5,150 @@
 (() => {
   'use strict';
 
+  // One entry per layer, in the order a visitor steps through them.
+  // `era` feeds the "What just changed?" era card.
   const STAGES = [
     {
       id: 'html',
+      year: '1991',
       label: 'HTML only',
+      shortLabel: 'plain HTML',
+      addLabel: 'plain HTML',
       css: null,
       js: false,
       summary: 'No CSS and no JavaScript. Everything you see comes from your browser\'s built-in defaults: black serif text, blue underlined links, images at their natural size.',
+      era: {
+        browsers: 'WorldWideWeb and the Line Mode Browser, then Mosaic (1993)',
+        fonts: 'Whatever the browser picked (usually a serif)',
+        colours: 'Black on white, blue links',
+        techniques: 'Headings, paragraphs, links and lists. No styling at all.',
+      },
     },
     {
       id: 'retro',
+      year: '1996',
       label: '90s styling',
+      shortLabel: 'the 90s',
+      addLabel: '90s styling',
       css: 'layers/retro.css',
       js: false,
       summary: 'A recreation of the web around 1996. Back then this look came from presentational HTML such as <font>, bgcolor, <center> and layout tables. Here it comes from one stylesheet, so the HTML stays exactly the same.',
+      era: {
+        browsers: 'Netscape Navigator 2–3, Internet Explorer 3',
+        fonts: 'Times New Roman, Arial, Comic Sans',
+        colours: 'Grey backgrounds, default blue and purple links, the 216 "web-safe" colours',
+        techniques: '<font> tags, bgcolor, nested layout tables, spacer GIFs, <blink> and <marquee>, frames',
+      },
+    },
+    {
+      id: 'flash',
+      year: '1999',
+      label: 'Flash & DHTML (~1999)',
+      shortLabel: 'Flash & DHTML',
+      addLabel: 'Flash & DHTML',
+      css: 'layers/flash.css',
+      js: false,
+      summary: 'The "look at what the web can do" era: black pages, neon colours, metallic buttons and a loading splash. This is only a CSS imitation. The real thing needed a browser plugin (Flash) or JavaScript (DHTML), and this layer has neither.',
+      era: {
+        browsers: 'Internet Explorer 5, Netscape 4, and the Flash plugin',
+        fonts: 'Verdana, Arial and tiny pixel fonts',
+        colours: 'Black backgrounds, neon cyan and orange, metallic gradients',
+        techniques: 'Flash intros ("Skip intro"), DHTML rollover menus, sliced-image layouts, animated GIFs',
+      },
+    },
+    {
+      id: 'web2',
+      year: '2006',
+      label: 'Web 2.0 (~2006)',
+      shortLabel: 'Web 2.0',
+      addLabel: 'Web 2.0',
+      css: 'layers/web2.css',
+      js: false,
+      summary: 'Glossy, friendly and rounded: gradients, soft shadows, big buttons and "beta" badges. Sites became places to take part, and they started to look like it.',
+      era: {
+        browsers: 'Firefox 2, Internet Explorer 7, Safari 2',
+        fonts: 'Lucida Grande, Verdana, Helvetica',
+        colours: 'Pastel gradients, glossy highlights, reflections',
+        techniques: 'Rounded corners made with background images and nested divs (CSS border-radius only arrived around 2009–2011), Ajax, drop shadows, "beta" badges',
+      },
+    },
+    {
+      id: 'flat',
+      year: '2013',
+      label: 'Flat design (~2013)',
+      shortLabel: 'flat design',
+      addLabel: 'flat design',
+      css: 'layers/flat.css',
+      js: false,
+      summary: 'Out went gradients and shadows, in came flat colour, big type and a tidy grid. Bootstrap made this look the default for a generation of sites.',
+      era: {
+        browsers: 'Chrome, Firefox, Internet Explorer 10, Safari 7',
+        fonts: 'Helvetica Neue, Open Sans (web fonts) and icon fonts',
+        colours: 'The "Flat UI" palette: turquoise, midnight blue, red',
+        techniques: 'Bootstrap\'s 12-column grid, hero banners, media queries for phones, no gradients or shadows',
+      },
+    },
+    {
+      id: 'brutal',
+      year: '2020',
+      label: 'Neo-brutalism (~2020)',
+      shortLabel: 'neo-brutalism',
+      addLabel: 'neo-brutalism',
+      css: 'layers/brutal.css',
+      js: false,
+      summary: 'A deliberate reaction to polished design: thick black borders, hard shadows, monospace type and loud colours. Raw on purpose.',
+      era: {
+        browsers: 'Evergreen Chrome, Firefox and Safari',
+        fonts: 'Monospace and grotesque sans-serif',
+        colours: 'Saturated blocks (yellow, pink, mint) and plain black',
+        techniques: 'CSS custom properties, thick borders, hard offset box-shadows, buttons that "press" into their shadow',
+      },
     },
     {
       id: 'css',
+      year: 'Today',
       label: 'Modern CSS',
+      shortLabel: 'modern CSS',
+      addLabel: 'modern CSS',
       css: 'layers/modern.css',
       js: false,
       summary: 'One modern stylesheet: colour, typography, spacing and a responsive grid layout. Not a single tag in the HTML changed.',
+      era: {
+        browsers: 'Evergreen Chrome, Firefox, Safari and Edge',
+        fonts: 'The system font (system-ui)',
+        colours: 'Custom-property palettes, automatic dark mode',
+        techniques: 'Grid, flexbox, custom properties, color-mix(), :has(), prefers-color-scheme and prefers-reduced-motion',
+      },
     },
     {
       id: 'js',
+      year: 'JS',
       label: 'Modern CSS + JavaScript',
+      shortLabel: 'modern CSS',
+      addLabel: 'JavaScript',
       css: 'layers/modern.css',
       js: true,
       summary: 'JavaScript adds behaviour: a reading progress bar, a sortable table, counters, instant form feedback and a theme switch. Look for the ⚡ JS labels.',
+      era: {
+        browsers: 'Evergreen Chrome, Firefox, Safari and Edge',
+        fonts: 'The system font (system-ui)',
+        colours: 'Same as modern CSS, plus a light/dark switch',
+        techniques: 'ES modules, IntersectionObserver, requestAnimationFrame, the DOM',
+      },
     },
   ];
 
-  const BUTTONS = [
-    [{ to: 1, text: 'Add 90s styling →', primary: true }],
-    [{ to: 0, text: '← Back to plain HTML' }, { to: 2, text: 'Add modern CSS →', primary: true }],
-    [{ to: 1, text: '← Back to the 90s' }, { to: 0, text: 'Remove all CSS' }, { to: 3, text: 'Add JavaScript →', primary: true }],
-    [{ to: 2, text: '← Remove JavaScript' }, { to: 0, text: 'Remove everything' }],
-  ];
+  // Back, "remove everything" and the primary "Add next layer" button for a given stage.
+  function buttonsFor(index) {
+    const last = STAGES.length - 1;
+    const buttons = [];
+    if (index > 0) {
+      buttons.push({ to: index - 1, text: index === last ? '← Remove JavaScript' : `← Back to ${STAGES[index - 1].shortLabel}` });
+    }
+    if (index > 1) buttons.push({ to: 0, text: index === last ? 'Remove everything' : 'Remove all CSS' });
+    if (index < last) buttons.push({ to: index + 1, text: `Add ${STAGES[index + 1].addLabel} →`, primary: true });
+    return buttons;
+  }
 
   const APP_SRC = 'layers/app.js';
   const files = {};
@@ -156,7 +263,7 @@
 
     const focusedBox = document.activeElement?.closest('[data-layer-buttons]');
     document.querySelectorAll('[data-layer-buttons]').forEach((box) => {
-      const buttons = BUTTONS[current].map((spec) => {
+      const buttons = buttonsFor(current).map((spec) => {
         const button = document.createElement('button');
         button.type = 'button';
         button.textContent = spec.text;
@@ -169,6 +276,31 @@
         (box.querySelector('.layer-btn--primary') ?? box.querySelector('button')).focus({ preventScroll: true });
       }
     });
+
+    renderTimeline();
+  }
+
+  // A row of clickable year markers, one per layer, to jump straight to any era.
+  function renderTimeline() {
+    const focusedIndex = [...document.querySelectorAll('[data-era-timeline] button')].findIndex((b) => b === document.activeElement);
+    document.querySelectorAll('[data-era-timeline]').forEach((box) => {
+      const list = el('ol');
+      STAGES.forEach((stage, index) => {
+        const item = el('li');
+        const button = el('button', stage.year);
+        button.type = 'button';
+        button.title = stage.label;
+        button.setAttribute('aria-label', `${stage.label}${stage.year === 'Today' || stage.year === 'JS' ? '' : `, ${stage.year}`}`);
+        if (index === current) button.setAttribute('aria-current', 'step');
+        button.addEventListener('click', () => go(index));
+        item.append(button);
+        list.append(item);
+      });
+      box.replaceChildren(list);
+    });
+    if (focusedIndex !== -1) {
+      document.querySelectorAll('[data-era-timeline]')[0]?.querySelectorAll('button')[focusedIndex]?.focus({ preventScroll: true });
+    }
   }
 
   function formatKB(bytes) {
@@ -199,6 +331,18 @@
     }
 
     const nodes = [el('p', to.summary)];
+
+    // Era card: what the web looked like and was built with at the time.
+    const card = el('dl');
+    card.className = 'era-card';
+    [['Era', `${to.year === 'Today' || to.year === 'JS' ? 'Today' : `Around ${to.year}`}`],
+      ['Browsers', to.era.browsers],
+      ['Fonts', to.era.fonts],
+      ['Colours', to.era.colours],
+      ['Techniques', to.era.techniques]].forEach(([term, text]) => {
+      card.append(el('dt', term), el('dd', text));
+    });
+    nodes.push(card);
 
     if (added.length || removed.length) {
       const list = el('ul');

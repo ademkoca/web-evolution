@@ -77,7 +77,7 @@
 }
 
 html {
-  scroll-padding-top: 7rem;
+  scroll-padding-top: 13rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -271,7 +271,7 @@ pre code {
 
 .what-changed__body {
   margin-top: 0.5rem;
-  max-height: 50vh;
+  max-height: 30vh;
   overflow: auto;
   padding: 1rem;
   background: var(--surface);
@@ -340,7 +340,7 @@ pre code {
 
   .toc {
     position: sticky;
-    top: 7rem;
+    top: 13rem;
     align-self: start;
   }
 }
@@ -917,8 +917,15 @@ th[aria-sort="descending"] .sort-btn::after {
     padding-block: 0.5rem;
   }
 
+  /* The highlighted year in the timeline already shows where you are,
+     so the status line is kept for screen readers only. */
   .layer-status {
-    font-size: 0.85rem;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .layer-note {
@@ -960,5 +967,75 @@ th[aria-sort="descending"] .sort-btn::after {
 
   .stat-number {
     font-size: 2.5rem;
+  }
+}
+
+/* ---------- Era timeline and era card (appear on every layer) ---------- */
+.era-timeline {
+  order: 2;
+  flex-basis: 100%;
+}
+
+.era-timeline ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.era-timeline button {
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.era-timeline button:hover {
+  border-color: var(--primary);
+  background: var(--surface-2);
+}
+
+.era-timeline button[aria-current="step"] {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.era-card {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.2rem 0.9rem;
+  margin: 0 0 0.8rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 10px;
+  background: var(--surface-2);
+}
+
+.era-card dt {
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.era-card dd {
+  margin: 0;
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .era-card {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .era-card dd {
+    margin-bottom: 0.4rem;
   }
 }
