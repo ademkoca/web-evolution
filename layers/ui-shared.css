@@ -107,6 +107,11 @@ img {
   cursor: pointer;
 }
 
+a.layer-btn {
+  display: inline-block;
+  text-decoration: none;
+}
+
 .layer-btn--primary {
   background: var(--ui-primary-bg);
   border-color: var(--ui-primary-bg);

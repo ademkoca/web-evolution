@@ -26,6 +26,8 @@
     },
     {
       id: 'retro',
+      tabTitle: '~*~ Welcome to my Homepage!!! ~*~',
+      tabIcon: '🚧',
       year: '1996',
       label: '90s styling',
       shortLabel: 'the 90s',
@@ -42,6 +44,8 @@
     },
     {
       id: 'flash',
+      tabTitle: 'THE EVOLUTION OF THE WEB » Enter site',
+      tabIcon: '💫',
       year: '1999',
       label: 'Flash & DHTML (~1999)',
       shortLabel: 'Flash & DHTML',
@@ -58,6 +62,8 @@
     },
     {
       id: 'web2',
+      tabTitle: 'The Evolution of the Web (beta)',
+      tabIcon: '💧',
       year: '2006',
       label: 'Web 2.0 (~2006)',
       shortLabel: 'Web 2.0',
@@ -73,7 +79,27 @@
       },
     },
     {
+      id: 'skeuo',
+      tabTitle: 'My Notebook: The Evolution of the Web',
+      tabIcon: '📒',
+      year: '2010',
+      label: 'Skeuomorphism (~2010)',
+      shortLabel: 'skeuomorphism',
+      addLabel: 'skeuomorphism',
+      css: 'layers/skeuo.css',
+      js: false,
+      summary: 'Screens that imitate real objects: leather, stitching, paper and wood. Phones and faster browsers made it possible to fake textures and depth, and designers did, until flat design swept it away.',
+      era: {
+        browsers: 'Safari 5, Chrome, Firefox 3.6, and the first iPhones and iPads',
+        fonts: 'Georgia, Helvetica Neue and handwriting-style fonts',
+        colours: 'Leather brown, linen, wood, paper cream and gold',
+        techniques: 'CSS3 gradients, box-shadow and text-shadow for "embossed" text, texture images, stitched borders, @font-face web fonts',
+      },
+    },
+    {
       id: 'flat',
+      tabTitle: 'The Evolution of the Web | Responsive Template',
+      tabIcon: '🟩',
       year: '2013',
       label: 'Flat design (~2013)',
       shortLabel: 'flat design',
@@ -90,6 +116,8 @@
     },
     {
       id: 'brutal',
+      tabTitle: 'THE EVOLUTION OF THE WEB!!',
+      tabIcon: '🟨',
       year: '2020',
       label: 'Neo-brutalism (~2020)',
       shortLabel: 'neo-brutalism',
@@ -122,6 +150,8 @@
     },
     {
       id: 'js',
+      tabTitle: '⚡ The Evolution of the Web',
+      tabIcon: '⚡',
       year: 'JS',
       label: 'Modern CSS + JavaScript',
       shortLabel: 'modern CSS',
@@ -151,6 +181,12 @@
   }
 
   const APP_SRC = 'layers/app.js';
+  // compare.html shows two eras side by side in iframes of this page with ?embed=1:
+  // those copies don't count visits or touch the address bar.
+  const EMBED = new URLSearchParams(location.search).get('embed') === '1';
+  const BASE_TITLE = document.title;
+  const iconLink = document.querySelector('link[rel~="icon"]');
+  const BASE_ICON = iconLink?.getAttribute('href');
   const files = {};
   let current = -1;
   let unmountApp = null;
@@ -237,6 +273,7 @@
     current = next;
     document.documentElement.dataset.layer = to.id;
     updateUrl(to.id);
+    updateTabIdentity(to);
     renderControls();
     restoreScrollAnchor(anchor);
     renderWhatChanged(from, to, previous === -1);
@@ -247,7 +284,17 @@
     return queue;
   }
 
+  // Each era gets its own tab title and icon, like a site of that time might have had.
+  function updateTabIdentity(stage) {
+    document.title = stage.tabTitle ?? BASE_TITLE;
+    if (!iconLink) return;
+    iconLink.href = stage.tabIcon
+      ? `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">${stage.tabIcon}</text></svg>`)}`
+      : BASE_ICON;
+  }
+
   function updateUrl(id) {
+    if (EMBED) return;
     const url = new URL(location.href);
     url.search = id === 'html' ? '' : `?layer=${id}`;
     history.replaceState(null, '', url);
@@ -271,6 +318,7 @@
         button.addEventListener('click', () => go(spec.to));
         return button;
       });
+      buttons.push(compareLink());
       box.replaceChildren(...buttons);
       if (box === focusedBox) {
         (box.querySelector('.layer-btn--primary') ?? box.querySelector('button')).focus({ preventScroll: true });
@@ -278,6 +326,15 @@
     });
 
     renderTimeline();
+  }
+
+  // Opens compare.html with the current era on the left and the next one on the right.
+  function compareLink() {
+    const next = STAGES[(current + 1) % STAGES.length];
+    const link = el('a', 'Compare eras ⇄');
+    link.className = 'layer-btn layer-btn--compare';
+    link.href = `compare.html?left=${STAGES[current].id}&right=${next.id}`;
+    return link;
   }
 
   // A row of clickable year markers, one per layer, to jump straight to any era.
@@ -413,7 +470,7 @@
 
   const start = () => {
     go(initial);
-    startCounter();
+    if (!EMBED) startCounter();
   };
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);

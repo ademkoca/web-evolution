@@ -314,6 +314,7 @@ const POLL_REPLIES = {
   retro: 'Ah, the 90s. Somewhere out there, a visitor counter is still ticking.',
   flash: 'Skip intro! Flash made the web exciting, and the plugin is gone for good.',
   web2: 'Gradients, glossy buttons and a "beta" badge. Peak 2006.',
+  skeuo: 'Stitched leather on a screen. Charming, and a lot of pixels for a calendar.',
   flat: 'Take away the shadows and the grid does all the work.',
   brutal: 'Raw on purpose: sometimes ugly is the point.',
   css: 'Same HTML, completely new look. That is the separation of content and presentation.',

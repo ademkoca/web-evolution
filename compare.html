@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compare eras | The Evolution of the Web</title>
+  <meta name="description" content="Drag a slider to compare two web design eras side by side, using the same content.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="compare.css">
+  <script src="compare.js" defer></script>
+</head>
+<body>
+  <header class="bar">
+    <a class="back" id="back-link" href="index.html">← Back to the evolution</a>
+    <h1>Compare eras</h1>
+    <div class="pickers">
+      <label>Left <select id="left-era"></select></label>
+      <button type="button" id="swap" aria-label="Swap the two eras">⇄</button>
+      <label>Right <select id="right-era"></select></label>
+    </div>
+    <label class="sync"><input type="checkbox" id="sync" checked> Scroll both together</label>
+  </header>
+
+  <noscript>
+    <p class="notice">This page needs JavaScript to show two eras side by side. You can still visit each era on the <a href="index.html">main page</a>.</p>
+  </noscript>
+
+  <main class="stage" id="stage" aria-label="Two eras of the same page">
+    <iframe id="frame-left" title="Left era"></iframe>
+    <iframe id="frame-right" title="Right era"></iframe>
+    <p class="chip chip--left" id="chip-left"></p>
+    <p class="chip chip--right" id="chip-right"></p>
+    <div class="divider" id="divider" aria-hidden="true"><span class="grip">⇆</span></div>
+  </main>
+
+  <div class="slider">
+    <label for="split">Drag to compare: left era ← → right era</label>
+    <input type="range" id="split" min="0" max="100" step="0.5" value="50">
+  </div>
+</body>
+</html>

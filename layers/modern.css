@@ -1039,3 +1039,8 @@ th[aria-sort="descending"] .sort-btn::after {
     margin-bottom: 0.4rem;
   }
 }
+
+a.layer-btn {
+  display: inline-block;
+  text-decoration: none;
+}

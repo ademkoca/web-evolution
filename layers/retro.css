@@ -493,3 +493,8 @@ html[data-counter="live"] .site-footer::after {
     gap: 0;
   }
 }
+
+a.layer-btn {
+  display: inline-block;
+  text-decoration: none;
+}
