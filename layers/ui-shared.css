@@ -1,0 +1,285 @@
+/* Shared styling for the layer controls (the bar at the top of the page).
+   The newer era stylesheets import this file and set the --ui-* variables
+   to match their own look, so each era's controls look at home in it. */
+
+:root {
+  --ui-bg: #ffffff;
+  --ui-text: #111111;
+  --ui-muted: #555555;
+  --ui-border: #cccccc;
+  --ui-btn-bg: #f2f2f2;
+  --ui-btn-text: #111111;
+  --ui-btn-border: #bbbbbb;
+  --ui-primary-bg: #0057d8;
+  --ui-primary-text: #ffffff;
+  --ui-panel-bg: #fafafa;
+  --ui-code-bg: #111111;
+  --ui-code-text: #eeeeee;
+  --ui-radius: 6px;
+  --ui-font: system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  background: var(--ui-primary-bg);
+  color: var(--ui-primary-text);
+  padding: 0.5rem 1rem;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+html {
+  scroll-padding-top: 11rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.layer-controls--bottom {
+  display: none;
+}
+
+.layer-controls--top {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.6rem max(16px, calc((100% - 1120px) / 2));
+  background: var(--ui-bg);
+  color: var(--ui-text);
+  border-bottom: var(--ui-bar-border, 1px solid var(--ui-border));
+  font-family: var(--ui-font);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.layer-controls p {
+  margin: 0;
+}
+
+.layer-status {
+  font-weight: 700;
+}
+
+.layer-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-left: auto !important;
+}
+
+.layer-note {
+  order: 3;
+  flex-basis: 100%;
+  color: var(--ui-muted);
+  font-size: 0.82rem;
+}
+
+.layer-note a {
+  color: inherit;
+}
+
+.layer-btn {
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--ui-radius);
+  border: 1px solid var(--ui-btn-border);
+  background: var(--ui-btn-bg);
+  color: var(--ui-btn-text);
+  cursor: pointer;
+}
+
+.layer-btn--primary {
+  background: var(--ui-primary-bg);
+  border-color: var(--ui-primary-bg);
+  color: var(--ui-primary-text);
+}
+
+.layer-btn:hover {
+  filter: brightness(1.08);
+}
+
+.layer-btn:active {
+  transform: translateY(1px);
+}
+
+:where(.layer-btn, .era-timeline button, .what-changed summary):focus-visible {
+  outline: 3px solid var(--ui-primary-bg);
+  outline-offset: 2px;
+}
+
+/* ---------- Era timeline ---------- */
+.era-timeline {
+  order: 2;
+  flex-basis: 100%;
+}
+
+.era-timeline ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.era-timeline button {
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--ui-radius);
+  border: 1px solid var(--ui-btn-border);
+  background: transparent;
+  color: var(--ui-text);
+  cursor: pointer;
+}
+
+.era-timeline button:hover {
+  background: var(--ui-btn-bg);
+}
+
+.era-timeline button[aria-current="step"] {
+  background: var(--ui-primary-bg);
+  border-color: var(--ui-primary-bg);
+  color: var(--ui-primary-text);
+}
+
+/* ---------- "What just changed?" panel ---------- */
+.what-changed {
+  order: 4;
+  flex-basis: 100%;
+  min-width: 0;
+  font-size: 0.9rem;
+}
+
+.what-changed summary {
+  cursor: pointer;
+  font-weight: 700;
+  width: fit-content;
+  color: var(--ui-primary-bg);
+}
+
+.what-changed__body {
+  margin-top: 0.5rem;
+  max-height: 30vh;
+  overflow: auto;
+  padding: 1rem;
+  background: var(--ui-panel-bg);
+  color: var(--ui-text);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+}
+
+.what-changed__body p,
+.what-changed__body ul {
+  margin: 0 0 0.6rem;
+}
+
+.what-changed__body pre {
+  margin: 0;
+  padding: 0.8rem 1rem;
+  max-height: 20rem;
+  overflow: auto;
+  background: var(--ui-code-bg);
+  color: var(--ui-code-text);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.what-changed__body code {
+  font: inherit;
+}
+
+.era-card {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.2rem 0.9rem;
+  margin: 0 0 0.8rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px dashed var(--ui-border);
+  border-radius: var(--ui-radius);
+}
+
+.era-card dt {
+  font-weight: 700;
+}
+
+.era-card dd {
+  margin: 0;
+  min-width: 0;
+}
+
+/* ---------- Phones: keep the always-visible bar compact ---------- */
+@media (max-width: 640px) {
+  .layer-controls--top {
+    gap: 0.4rem 0.75rem;
+    padding: 0.5rem 16px;
+  }
+
+  /* The highlighted year in the timeline already shows where you are,
+     so the status line is kept for screen readers only. */
+  .layer-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .layer-note {
+    display: none;
+  }
+
+  .layer-buttons {
+    margin-left: 0 !important;
+    gap: 0.4rem;
+  }
+
+  .layer-btn {
+    font-size: 0.82rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .what-changed__body {
+    max-height: 24vh;
+    padding: 0.75rem;
+  }
+
+  .era-card {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .era-card dd {
+    margin-bottom: 0.4rem;
+  }
+
+  .what-changed__body pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    overflow-x: hidden;
+    font-size: 0.72rem;
+    max-height: 7rem;
+  }
+}

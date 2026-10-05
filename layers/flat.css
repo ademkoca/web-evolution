@@ -1,0 +1,381 @@
+@import url("ui-shared.css");
+
+/* Flat design era (~2013): flat colour, light type, a tidy 12-column-style grid.
+   No gradients and no shadows. */
+
+:root {
+  --ui-bg: #2c3e50;
+  --ui-text: #ecf0f1;
+  --ui-muted: #bdc3c7;
+  --ui-border: #1a252f;
+  --ui-btn-bg: #34495e;
+  --ui-btn-text: #ffffff;
+  --ui-btn-border: #4b6580;
+  --ui-primary-bg: #117a65;
+  --ui-primary-text: #ffffff;
+  --ui-panel-bg: #ffffff;
+  --ui-code-bg: #2c3e50;
+  --ui-radius: 3px;
+  --ui-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --midnight: #2c3e50;
+  --turquoise: #1abc9c;
+  --teal: #117a65;
+  --red: #c0392b;
+  --blue: #2471a3;
+  --text: #2c3e50;
+  --line: #d5dbdb;
+}
+
+/* The controls bar is a dark "navbar-inverse", so its panel text must stay dark on white. */
+.what-changed__body {
+  color: #2c3e50;
+}
+
+html {
+  background: #ecf0f1;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--teal);
+}
+
+a:hover {
+  color: #0e5e4f;
+}
+
+:focus-visible {
+  outline: 3px solid var(--turquoise);
+  outline-offset: 2px;
+}
+
+.layer-btn {
+  border-color: #4b6580;
+  background: #34495e;
+  color: #ffffff;
+  font-weight: 400;
+}
+
+.layer-btn--primary {
+  border-color: #117a65;
+  background: #117a65;
+}
+
+.era-timeline button {
+  border-color: #4b6580;
+  color: #ecf0f1;
+  font-weight: 400;
+}
+
+.era-timeline button:hover {
+  background: #34495e;
+}
+
+.era-timeline button[aria-current="step"] {
+  border-color: var(--turquoise);
+  background: var(--turquoise);
+  color: #0b2e28;
+  font-weight: 700;
+}
+
+.layer-controls--top .what-changed summary {
+  color: var(--turquoise);
+}
+
+/* ---------- Hero banner ---------- */
+.site-header {
+  padding: 72px 16px 64px;
+  text-align: center;
+  color: #ffffff;
+  background: #117a65;
+}
+
+.kicker {
+  margin: 0 0 12px;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #d1f2eb;
+}
+
+.site-header h1 {
+  margin: 0 0 16px;
+  font-size: clamp(38px, 8vw, 72px);
+  font-weight: 200;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  max-width: 620px;
+  margin: 0 auto;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+/* ---------- Container + grid ---------- */
+.page {
+  display: grid;
+  gap: 30px;
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 30px 16px;
+}
+
+.page > * {
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .page {
+    grid-template-columns: 1fr 3fr;
+  }
+
+  .toc {
+    position: sticky;
+    top: 10rem;
+    align-self: start;
+  }
+}
+
+.toc h2 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #566573;
+}
+
+.toc ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+
+.toc li + li {
+  border-top: 1px solid var(--line);
+}
+
+.toc a {
+  display: block;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  background: #ecf0f1;
+  color: var(--teal);
+}
+
+main > section {
+  margin-bottom: 30px;
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+
+h2 {
+  margin: 0 0 18px;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--midnight);
+}
+
+.era {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--blue);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+/* ---------- Content ---------- */
+figure {
+  margin: 20px 0;
+}
+
+figure img {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+
+figcaption {
+  margin-top: 8px;
+  color: #566573;
+  font-size: 14px;
+}
+
+figure.quote {
+  margin: 20px 0;
+  padding: 10px 20px;
+  border-left: 5px solid var(--turquoise);
+  background: #ecf0f1;
+}
+
+blockquote {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+code {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background: #fdecea;
+  color: var(--red);
+  font-size: 90%;
+}
+
+pre {
+  overflow-x: auto;
+  padding: 14px;
+  border-radius: 3px;
+  background: var(--midnight);
+  color: #ecf0f1;
+}
+
+pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+caption {
+  padding: 8px 0;
+  text-align: left;
+  color: #566573;
+}
+
+th {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid var(--line);
+  color: var(--midnight);
+}
+
+td {
+  padding: 10px;
+  border-top: 1px solid var(--line);
+}
+
+tbody tr:nth-child(odd) td {
+  background: #f7f9f9;
+}
+
+tbody tr:hover td {
+  background: #e8f8f5;
+}
+
+.stats {
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 20px;
+}
+
+.stats li {
+  margin: 0;
+  padding: 20px;
+  border-radius: 3px;
+  background: #ecf0f1;
+  color: #566573;
+}
+
+.stat-number {
+  display: block;
+  font-size: 48px;
+  font-weight: 200;
+  line-height: 1.1;
+  color: var(--teal);
+}
+
+.stats li:nth-child(2) .stat-number {
+  color: var(--blue);
+}
+
+.stats li:nth-child(3) .stat-number {
+  color: var(--red);
+}
+
+.stats li:nth-child(4) .stat-number {
+  color: var(--midnight);
+}
+
+fieldset {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+
+legend {
+  padding: 0 8px;
+  font-weight: 700;
+}
+
+textarea {
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #aeb6bf;
+  border-radius: 3px;
+  font: inherit;
+  color: var(--text);
+}
+
+#poll-form button {
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 3px;
+  background: var(--teal);
+  color: #ffffff;
+  font: inherit;
+  cursor: pointer;
+}
+
+#poll-form button:hover {
+  background: #0e5e4f;
+}
+
+.site-footer {
+  padding: 40px 16px;
+  text-align: center;
+  background: var(--midnight);
+  color: #bdc3c7;
+  font-size: 14px;
+}
+
+.site-footer a {
+  color: var(--turquoise);
+}
+
+.site-footer p {
+  margin: 4px 0;
+}

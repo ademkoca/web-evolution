@@ -1,0 +1,466 @@
+@import url("ui-shared.css");
+
+/* Neo-brutalism era (~2020): thick black borders, hard offset shadows,
+   monospace type and loud colour. Raw on purpose. */
+
+:root {
+  --ui-bg: #ffffff;
+  --ui-text: #000000;
+  --ui-muted: #333333;
+  --ui-border: #000000;
+  --ui-bar-border: 3px solid #000000;
+  --ui-btn-bg: #ffffff;
+  --ui-btn-text: #000000;
+  --ui-btn-border: #000000;
+  --ui-primary-bg: #ff90e8;
+  --ui-primary-text: #000000;
+  --ui-panel-bg: #fffbe6;
+  --ui-code-bg: #000000;
+  --ui-code-text: #90e0a8;
+  --ui-radius: 0;
+  --ui-font: ui-monospace, "SF Mono", Menlo, Consolas, "Courier New", monospace;
+  --yellow: #ffc900;
+  --pink: #ff90e8;
+  --mint: #90e0a8;
+  --sky: #8ec5ff;
+  --ink: #000000;
+  --shadow: 6px 6px 0 #000000;
+}
+
+html {
+  background: #fffbe6;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Courier New", monospace;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+a {
+  color: #000000;
+  font-weight: 700;
+  text-decoration-thickness: 3px;
+  text-decoration-color: var(--pink);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  background: var(--yellow);
+}
+
+:focus-visible {
+  outline: 4px solid #0050ff;
+  outline-offset: 2px;
+}
+
+/* Buttons sit on a hard shadow and press into it */
+.layer-btn,
+.era-timeline button,
+#poll-form button {
+  border: 3px solid #000000;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 #000000;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.layer-btn {
+  font-weight: 700;
+}
+
+.layer-btn:hover,
+.era-timeline button:hover,
+#poll-form button:hover {
+  filter: none;
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #000000;
+}
+
+.layer-btn:active,
+.era-timeline button:active,
+#poll-form button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 #000000;
+}
+
+.layer-btn--primary {
+  border-color: #000000;
+}
+
+.era-timeline button {
+  background: #ffffff;
+  border-width: 2px;
+  box-shadow: 2px 2px 0 #000000;
+}
+
+.era-timeline button[aria-current="step"] {
+  border-color: #000000;
+  background: var(--yellow);
+}
+
+.what-changed__body {
+  border-width: 3px;
+  box-shadow: 4px 4px 0 #000000;
+}
+
+.era-card {
+  border: 2px solid #000000;
+  background: #ffffff;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  padding: 56px max(16px, calc((100% - 1100px) / 2)) 48px;
+  background: var(--yellow);
+  border-bottom: 3px solid #000000;
+}
+
+.kicker {
+  display: table;
+  margin: 0 0 14px;
+  padding: 2px 10px;
+  background: #000000;
+  color: var(--yellow);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.site-header h1 {
+  margin: 0 0 16px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(34px, 7.5vw, 80px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.lead {
+  max-width: 680px;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* ---------- Layout ---------- */
+.page {
+  display: grid;
+  gap: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.page > * {
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .page {
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+
+  .toc {
+    position: sticky;
+    top: 11.5rem;
+    align-self: start;
+  }
+}
+
+.toc {
+  padding: 16px;
+  background: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: var(--shadow);
+}
+
+.toc h2 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 32px;
+}
+
+.toc li {
+  margin-bottom: 4px;
+}
+
+.toc a {
+  text-decoration: none;
+  font-size: 14px;
+}
+
+main > section {
+  margin-bottom: 32px;
+  padding: 28px;
+  background: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: var(--shadow);
+}
+
+main > section:nth-of-type(5n + 1) {
+  background: #fff3b0;
+}
+
+main > section:nth-of-type(5n + 2) {
+  background: #ffd1f5;
+}
+
+main > section:nth-of-type(5n + 3) {
+  background: #cdf3d8;
+}
+
+main > section:nth-of-type(5n + 4) {
+  background: #d3e7ff;
+}
+
+h2 {
+  margin: 0 0 16px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(22px, 4vw, 34px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.era {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 2px 8px;
+  border: 2px solid #000000;
+  background: #000000;
+  color: var(--yellow);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.45em;
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+
+/* ---------- Content ---------- */
+figure {
+  margin: 20px 0;
+}
+
+figure img {
+  border: 3px solid #000000;
+  box-shadow: var(--shadow);
+  background: #ffffff;
+}
+
+figcaption {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+figure.quote {
+  margin: 20px 0;
+  padding: 12px 18px;
+  border: 3px solid #000000;
+  background: #ffffff;
+  box-shadow: 4px 4px 0 #000000;
+}
+
+blockquote {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+code {
+  padding: 1px 5px;
+  border: 2px solid #000000;
+  background: #ffffff;
+  font-size: 0.9em;
+}
+
+pre {
+  overflow-x: auto;
+  padding: 14px;
+  border: 3px solid #000000;
+  background: #000000;
+  color: var(--mint);
+  box-shadow: 4px 4px 0 var(--pink);
+}
+
+pre code {
+  border: 0;
+  background: none;
+  color: inherit;
+  padding: 0;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 3px solid #000000;
+  background: #ffffff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+caption {
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 700;
+  background: var(--yellow);
+  border-bottom: 3px solid #000000;
+}
+
+th {
+  padding: 8px 12px;
+  text-align: left;
+  background: #000000;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+td {
+  padding: 8px 12px;
+  border-top: 2px solid #000000;
+}
+
+tbody tr:hover td {
+  background: var(--yellow);
+}
+
+.stats {
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 20px;
+}
+
+.stats li {
+  margin: 0;
+  padding: 16px;
+  border: 3px solid #000000;
+  box-shadow: 4px 4px 0 #000000;
+  background: #ffffff;
+}
+
+.stats li:nth-child(1) {
+  background: var(--pink);
+}
+
+.stats li:nth-child(2) {
+  background: var(--yellow);
+}
+
+.stats li:nth-child(3) {
+  background: var(--mint);
+}
+
+.stats li:nth-child(4) {
+  background: var(--sky);
+}
+
+.stat-number {
+  display: block;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 56px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+fieldset {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 16px;
+  border: 3px solid #000000;
+  background: #ffffff;
+}
+
+legend {
+  padding: 0 8px;
+  background: var(--yellow);
+  border: 3px solid #000000;
+  font-weight: 700;
+}
+
+fieldset p {
+  margin: 0;
+}
+
+fieldset label {
+  display: block;
+  padding: 8px 10px;
+  border: 2px solid #000000;
+  cursor: pointer;
+}
+
+fieldset label:has(input:checked) {
+  background: var(--yellow);
+}
+
+input[type="radio"] {
+  accent-color: #000000;
+}
+
+textarea {
+  max-width: 100%;
+  padding: 8px 10px;
+  border: 3px solid #000000;
+  border-radius: 0;
+  background: #ffffff;
+  font: inherit;
+  color: #000000;
+}
+
+#poll-form button {
+  padding: 10px 22px;
+  background: var(--pink);
+  color: #000000;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.site-footer {
+  padding: 32px 16px 48px;
+  text-align: center;
+  background: #000000;
+  color: #ffffff;
+}
+
+.site-footer a {
+  color: var(--yellow);
+}
+
+.site-footer p {
+  margin: 4px 0;
+}
+
+@media (max-width: 640px) {
+  main > section {
+    padding: 18px;
+    box-shadow: 4px 4px 0 #000000;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer-btn,
+  .era-timeline button,
+  #poll-form button {
+    transition: none;
+  }
+}
+
+.what-changed summary {
+  color: #000000;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-decoration-color: var(--pink);
+}
