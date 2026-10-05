@@ -312,6 +312,10 @@ function setupTable(ctx) {
 const POLL_REPLIES = {
   html: 'Plain HTML is underrated: it loads instantly and works everywhere.',
   retro: 'Ah, the 90s. Somewhere out there, a visitor counter is still ticking.',
+  flash: 'Skip intro! Flash made the web exciting, and the plugin is gone for good.',
+  web2: 'Gradients, glossy buttons and a "beta" badge. Peak 2006.',
+  flat: 'Take away the shadows and the grid does all the work.',
+  brutal: 'Raw on purpose: sometimes ugly is the point.',
   css: 'Same HTML, completely new look. That is the separation of content and presentation.',
   js: 'Behaviour is the newest layer, and the easiest one to overdo.',
 };
@@ -321,6 +325,7 @@ function setupPoll(ctx) {
   if (!form) return;
   const textarea = form.querySelector('textarea');
   const fieldset = form.querySelector('fieldset');
+  const submit = form.querySelector('button[type="submit"]');
   badge(ctx, form.querySelector('legend'), 'instant feedback');
 
   // Let JavaScript give friendlier messages than the browser's built-in validation.
@@ -340,31 +345,65 @@ function setupPoll(ctx) {
   updateCounter();
 
   const selected = () => form.querySelector('input[name="choice"]:checked');
+  const showError = (message) => {
+    feedback.classList.add('is-error');
+    feedback.textContent = message;
+  };
 
   ctx.on(form, 'change', (event) => {
     if (event.target.name !== 'choice') return;
     feedback.classList.remove('is-error');
-    feedback.textContent = POLL_REPLIES[event.target.value];
+    feedback.textContent = POLL_REPLIES[event.target.id.replace('poll-', '')] ?? '';
   });
 
+  // Sends the answer to Formspree in the background (the form's own action),
+  // so the visitor stays on the page. Without this layer the browser submits it normally.
   let result = null;
-  ctx.on(form, 'submit', (event) => {
+  let sending = false;
+  ctx.on(form, 'submit', async (event) => {
     event.preventDefault();
+    if (sending) return;
     const choice = selected();
     if (!choice) {
-      feedback.classList.add('is-error');
-      feedback.textContent = 'Pick one of the layers first.';
+      showError('Pick one of the layers first.');
       form.querySelector('input[name="choice"]').focus();
       return;
     }
-    const name = choice.closest('label').textContent.trim();
-    const why = textarea.value.trim();
+
+    sending = true;
+    submit.disabled = true;
+    feedback.classList.remove('is-error');
+    feedback.textContent = 'Sending…';
     result?.remove();
-    result = el('p', { className: 'poll-result' }, `Thanks! You picked “${name}”${why ? `: “${why}”` : ''}. No page reload needed.`);
-    result.setAttribute('role', 'status');
-    form.after(result);
+    result = null;
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.errors?.map((e) => e.message).join(', ') || String(response.status));
+
+      const why = textarea.value.trim();
+      feedback.textContent = '';
+      result = el('p', { className: 'poll-result' }, `Thanks! Your answer, “${choice.closest('label').textContent.trim()}”${why ? ` (“${why}”)` : ''}, was sent. No page reload needed.`);
+      result.setAttribute('role', 'status');
+      form.after(result);
+      form.reset();
+      updateCounter();
+    } catch {
+      showError('Sorry, that did not go through. Please try again in a moment.');
+    } finally {
+      sending = false;
+      submit.disabled = false;
+    }
   });
-  ctx.cleanup(() => result?.remove());
+  ctx.cleanup(() => {
+    result?.remove();
+    submit.disabled = false;
+  });
 }
 
 // ---------- copy buttons on code samples ----------

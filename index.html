@@ -223,14 +223,20 @@
 
       <section id="poll">
         <h2>Your turn</h2>
-        <form id="poll-form" action="#poll" method="get">
+        <form id="poll-form" action="https://formspree.io/f/xljgerdb" method="post">
           <input type="hidden" name="layer" value="html">
+          <input type="hidden" name="_subject" value="New answer: The Evolution of the Web">
+          <p hidden><label>Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
           <fieldset>
             <legend>Which layer surprised you most?</legend>
-            <p><label><input type="radio" name="choice" value="html" required> Plain HTML</label></p>
-            <p><label><input type="radio" name="choice" value="retro"> 90s styling</label></p>
-            <p><label><input type="radio" name="choice" value="css"> Modern CSS</label></p>
-            <p><label><input type="radio" name="choice" value="js"> JavaScript</label></p>
+            <p><label><input type="radio" id="poll-html" name="choice" value="Plain HTML (1991)" required> Plain HTML</label></p>
+            <p><label><input type="radio" id="poll-retro" name="choice" value="90s styling (1996)"> 90s styling</label></p>
+            <p><label><input type="radio" id="poll-flash" name="choice" value="Flash &amp; DHTML (~1999)"> Flash &amp; DHTML</label></p>
+            <p><label><input type="radio" id="poll-web2" name="choice" value="Web 2.0 (~2006)"> Web 2.0</label></p>
+            <p><label><input type="radio" id="poll-flat" name="choice" value="Flat design (~2013)"> Flat design</label></p>
+            <p><label><input type="radio" id="poll-brutal" name="choice" value="Neo-brutalism (~2020)"> Neo-brutalism</label></p>
+            <p><label><input type="radio" id="poll-css" name="choice" value="Modern CSS"> Modern CSS</label></p>
+            <p><label><input type="radio" id="poll-js" name="choice" value="JavaScript"> JavaScript</label></p>
           </fieldset>
           <p>
             <label for="poll-why">Why? (optional)</label><br>
@@ -238,7 +244,7 @@
           </p>
           <p><button type="submit">Send my answer</button></p>
         </form>
-        <p>Without JavaScript, a form can only send its answers off and load a new page. There's no server behind this one, so you'll just land back here. With JavaScript, the form can respond instantly.</p>
+        <p>Your answer, the optional note and the layer you were on are sent to <a href="https://formspree.io/">Formspree</a>, a form service, and nothing else is collected. Without JavaScript the browser sends the form itself and shows you Formspree's thank-you page. With JavaScript, the form sends it in the background and you stay right here.</p>
       </section>
 
       <section id="progressive">
