@@ -11,6 +11,7 @@ const ERAS = [
   { id: 'skeuo', year: '~2010', label: 'Skeuomorphism' },
   { id: 'flat', year: '~2013', label: 'Flat design' },
   { id: 'brutal', year: '~2020', label: 'Neo-brutalism' },
+  { id: 'glass', year: '~2021', label: 'Glassmorphism' },
   { id: 'css', year: 'Today', label: 'Modern CSS' },
   { id: 'js', year: 'Today', label: 'Modern CSS + JavaScript' },
 ];

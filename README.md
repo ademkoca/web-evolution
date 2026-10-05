@@ -11,8 +11,9 @@ An interactive single page that lets visitors add and remove the layers of a web
 | 5 | `skeuo` (~2010) | `layers/skeuo.css`, leather, stitching, paper and wood |
 | 6 | `flat` (~2013) | `layers/flat.css`, flat colour, Bootstrap-style grid |
 | 7 | `brutal` (~2020) | `layers/brutal.css`, thick borders, hard shadows, monospace |
-| 8 | `css` (today) | `layers/modern.css` |
-| 9 | `js` (today) | `layers/modern.css` + `layers/app.js` |
+| 8 | `glass` (~2021) | `layers/glass.css`, frosted translucent panels over a glowing gradient |
+| 9 | `css` (today) | `layers/modern.css` |
+| 10 | `js` (today) | `layers/modern.css` + `layers/app.js` |
 
 Visitors move between layers with the **Add / Back** buttons or by clicking a year in the **era timeline**. The "What just changed?" panel shows an era card (browsers, fonts, colours and techniques of the time) and the code that was just added.
 
@@ -31,7 +32,7 @@ The page uses `fetch()` and a dynamic `import()`, so it has to be served over HT
   # open http://localhost:8000
   ```
 
-Add `?layer=html|retro|flash|web2|skeuo|flat|brutal|css|js` to the URL to open the page at a specific layer.
+Add `?layer=html|retro|flash|web2|skeuo|flat|brutal|glass|css|js` to the URL to open the page at a specific layer.
 
 ## How it works
 

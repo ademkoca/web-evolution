@@ -317,6 +317,7 @@ const POLL_REPLIES = {
   skeuo: 'Stitched leather on a screen. Charming, and a lot of pixels for a calendar.',
   flat: 'Take away the shadows and the grid does all the work.',
   brutal: 'Raw on purpose: sometimes ugly is the point.',
+  glass: 'Frosted glass over a glowing gradient. Pretty, as long as you can still read the text.',
   css: 'Same HTML, completely new look. That is the separation of content and presentation.',
   js: 'Behaviour is the newest layer, and the easiest one to overdo.',
 };

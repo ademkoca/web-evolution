@@ -1,0 +1,424 @@
+@import url("ui-shared.css");
+
+/* Glassmorphism era (~2021): frosted, translucent panels that blur whatever is
+   behind them, floating over a glowing gradient. */
+
+:root {
+  --ui-bg: rgba(22, 14, 70, 0.55);
+  --ui-text: #ffffff;
+  --ui-muted: rgba(255, 255, 255, 0.78);
+  --ui-border: rgba(255, 255, 255, 0.28);
+  --ui-btn-bg: rgba(255, 255, 255, 0.14);
+  --ui-btn-text: #ffffff;
+  --ui-btn-border: rgba(255, 255, 255, 0.38);
+  --ui-primary-bg: #7c3aed;
+  --ui-primary-text: #ffffff;
+  --ui-panel-bg: rgba(255, 255, 255, 0.12);
+  --ui-code-bg: rgba(0, 0, 0, 0.45);
+  --ui-code-text: #e9e5ff;
+  --ui-radius: 14px;
+  --ui-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --glass: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.07));
+  --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 10px 34px rgba(8, 4, 40, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  --blur: blur(20px) saturate(150%);
+  --ink: #ffffff;
+  --link: #a5f3fc;
+}
+
+html {
+  background: #140e44;
+}
+
+/* A deep gradient with soft coloured glows: the "light" that the glass blurs */
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  min-height: 100vh;
+  background:
+    radial-gradient(620px 520px at 10% 6%, rgba(236, 72, 153, 0.5), transparent 62%),
+    radial-gradient(720px 600px at 90% 10%, rgba(34, 211, 238, 0.32), transparent 62%),
+    radial-gradient(820px 720px at 72% 92%, rgba(139, 92, 246, 0.5), transparent 62%),
+    radial-gradient(620px 520px at 6% 86%, rgba(59, 130, 246, 0.38), transparent 62%),
+    linear-gradient(160deg, #120d3a, #241163 55%, #0f1b4d);
+  background-attachment: fixed;
+}
+
+a {
+  color: var(--link);
+}
+
+a:hover {
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* ---------- Glass: used on the bar, the header and every card ---------- */
+.layer-controls--top {
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 6px 24px rgba(8, 4, 40, 0.4);
+}
+
+.layer-btn {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.layer-btn--primary {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.era-timeline button {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+}
+
+.era-timeline button:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.era-timeline button[aria-current="step"] {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+}
+
+.what-changed summary {
+  color: #ddd6fe;
+}
+
+.what-changed__body {
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+}
+
+.site-header,
+.toc,
+main > section {
+  background: var(--glass);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+}
+
+/* Browsers without backdrop-filter get a solid, still readable card */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-header,
+  .toc,
+  main > section,
+  .layer-controls--top {
+    background: rgba(40, 28, 110, 0.9);
+  }
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  margin: 26px auto 0;
+  max-width: 968px;
+  padding: 52px 28px 46px;
+  text-align: center;
+  border-radius: 28px;
+}
+
+.kicker {
+  display: inline-block;
+  margin: 0 0 12px;
+  padding: 3px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.site-header h1 {
+  margin: 0 0 14px;
+  font-size: clamp(32px, 7vw, 60px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-shadow: 0 2px 24px rgba(168, 85, 247, 0.7);
+}
+
+.lead {
+  max-width: 580px;
+  margin: 0 auto;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* ---------- Layout ---------- */
+.page {
+  display: grid;
+  gap: 24px;
+  max-width: 968px;
+  margin: 24px auto 0;
+  padding: 0;
+}
+
+.page > * {
+  min-width: 0;
+}
+
+@media (max-width: 1000px) {
+  .page,
+  .site-header {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  .site-header {
+    max-width: none;
+  }
+}
+
+@media (min-width: 800px) {
+  .page {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+
+  .toc {
+    position: sticky;
+    top: 10rem;
+    align-self: start;
+  }
+}
+
+.toc {
+  padding: 18px;
+  border-radius: 22px;
+}
+
+.toc h2 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.toc ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toc a {
+  display: block;
+  margin-bottom: 3px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.toc a:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+main > section {
+  margin-bottom: 24px;
+  padding: 28px;
+  border-radius: 26px;
+}
+
+h2 {
+  margin: 0 0 14px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.era {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 2px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+
+/* ---------- Content ---------- */
+figure {
+  margin: 20px 0;
+}
+
+figure img {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 18px;
+  box-shadow: 0 10px 28px rgba(8, 4, 40, 0.5);
+}
+
+figcaption {
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 14px;
+}
+
+figure.quote {
+  margin: 20px 0;
+  padding: 14px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: 4px solid #a5f3fc;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+blockquote {
+  margin: 0;
+  font-size: 18px;
+}
+
+code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 0.9em;
+}
+
+pre {
+  overflow-x: auto;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.42);
+  color: #e9e5ff;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+caption {
+  padding: 10px 14px;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+th {
+  padding: 10px 14px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+td {
+  padding: 9px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.stats {
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 16px;
+}
+
+.stats li {
+  margin: 0;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.86);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.stat-number {
+  display: block;
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #ffffff;
+  text-shadow: 0 0 22px rgba(34, 211, 238, 0.8);
+}
+
+fieldset {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+legend {
+  padding: 0 10px;
+  font-weight: 700;
+}
+
+textarea {
+  max-width: 100%;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font: inherit;
+}
+
+#poll-form button {
+  padding: 10px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+
+.site-footer {
+  padding: 16px 16px 48px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+}
+
+.site-footer p {
+  margin: 4px 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toc a {
+    transition: none;
+  }
+}
