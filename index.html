@@ -16,6 +16,7 @@
     <p class="layer-status" data-layer-status aria-live="polite"></p>
     <p class="layer-buttons" data-layer-buttons></p>
     <div class="era-timeline" data-era-timeline></div>
+    <p class="js-status" data-js-status aria-live="polite"></p>
     <noscript>
       <p>JavaScript is turned off, so the layer buttons can't work. You're seeing the HTML layer, and that's HTML's strength: it works everywhere.</p>
     </noscript>
@@ -61,7 +62,7 @@
           <li>Add <strong>90s styling</strong> to see how the web looked around 1996.</li>
           <li>Travel on through <strong>Flash &amp; DHTML</strong> (~1999), <strong>Web 2.0</strong> (~2006), <strong>skeuomorphism</strong> (~2010), <strong>flat design</strong> (~2013), <strong>neo-brutalism</strong> (~2020) and <strong>glassmorphism</strong> (~2021). Every one of them is a different stylesheet on the same HTML.</li>
           <li>Add <strong>modern CSS</strong> for today's layout, colour and typography.</li>
-          <li>Add <strong>JavaScript</strong> for interaction and a little motion.</li>
+          <li>Switch <strong>JavaScript</strong> on and off in any era from Flash &amp; DHTML onward. Each era gets the kind of scripting that was typical for it, so you can see what scripting adds to that look.</li>
         </ol>
         <figure>
           <img src="assets/img/layers.svg" width="480" height="300" alt="Three stacked layers labelled HTML at the bottom, CSS in the middle and JS on top.">
@@ -155,7 +156,7 @@
           <li>2009: Node.js let JavaScript run on servers.</li>
           <li>2015: ES2015 (ES6) added modules, classes, arrow functions and promises.</li>
         </ul>
-        <p>Used well, JavaScript makes a page more helpful without getting in the way. Used carelessly, it makes pages slow and fragile. The JavaScript layer on this page adds only a few small things, and each one is marked with a ⚡ JS label.</p>
+        <p>Used well, JavaScript makes a page more helpful without getting in the way. Used carelessly, it makes pages slow and fragile. Use the ⚡ JavaScript switch in the bar to turn it on in any era that can use it (not the 1991 or 1996 layers). Each era gets different scripting, such as a typewriter intro and cursor trail in the DHTML era, a lightbox in the Ajax era, or a scrollspy in the Bootstrap era, and every addition is marked with a ⚡ JS label.</p>
       </section>
 
       <section id="eras">
@@ -229,6 +230,7 @@
         <h2>Your turn</h2>
         <form id="poll-form" action="https://formspree.io/f/xljgerdb" method="post">
           <input type="hidden" name="layer" value="html">
+          <input type="hidden" name="javascript" value="off">
           <input type="hidden" name="_subject" value="New answer: The Evolution of the Web">
           <p hidden><label>Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
           <fieldset>

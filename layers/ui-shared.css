@@ -73,15 +73,21 @@ img {
   margin: 0;
 }
 
+/* The highlighted year in the timeline and the JavaScript button already show where
+   you are, so the "Now showing" line is kept for screen readers only. */
 .layer-status {
-  font-weight: 700;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .layer-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-left: auto !important;
 }
 
 .layer-note {
@@ -129,6 +135,26 @@ a.layer-btn {
 :where(.layer-btn, .era-timeline button, .what-changed summary):focus-visible {
   outline: 3px solid var(--ui-primary-bg);
   outline-offset: 2px;
+}
+
+/* ---------- JavaScript switch ---------- */
+.layer-btn--js.is-on {
+  background: var(--ui-primary-bg);
+  border-color: var(--ui-primary-bg);
+  color: var(--ui-primary-text);
+}
+
+.layer-btn--js[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.js-status {
+  order: 2;
+  flex: 1 1 22rem;
+  margin: 0;
+  color: var(--ui-muted);
+  font-size: 0.82rem;
 }
 
 /* ---------- Era timeline ---------- */
@@ -236,6 +262,22 @@ a.layer-btn {
 
 /* ---------- Phones: keep the always-visible bar compact ---------- */
 @media (max-width: 640px) {
+  /* Phones: a short status sentence only (the full text stays for screen readers
+     and in the "What just changed?" panel), and no "Remove everything" button
+     (the timeline can jump to 1991). */
+  .js-status__more {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .layer-btn--reset {
+    display: none;
+  }
+
   .layer-controls--top {
     gap: 0.4rem 0.75rem;
     padding: 0.5rem 16px;

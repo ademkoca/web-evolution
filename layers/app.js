@@ -1,10 +1,30 @@
 // JavaScript layer.
-// mount() adds behaviour to the page and returns a function that takes all of
-// it away again, so "Remove JavaScript" really leaves the page as it was.
+// mount(era) adds the scripting that was typical for that era and returns a
+// function that takes all of it away again, so turning JavaScript off really
+// leaves the page as it was. What each era gets is listed in ERA_FEATURES.
+// (Keep the descriptions in controller.js and compare.js in sync with it.)
 
-export function mount() {
+const ERA_FEATURES = {
+  // ~1999, DHTML: showy effects
+  flash: ['typewriter', 'cursorTrail', 'skipIntro', 'poll'],
+  // ~2006, Ajax: pages that react without reloading
+  web2: ['lightbox', 'table', 'poll'],
+  // ~2010, jQuery: smooth scrolling and fade-ins
+  skeuo: ['reveal', 'smoothScroll', 'backToTop', 'poll'],
+  // ~2013, Bootstrap plugins: scrollspy, counters, sortable tables
+  flat: ['scrollspy', 'counters', 'sortTable', 'backToTop'],
+  // ~2020: small helpful widgets
+  brutal: ['table', 'copy', 'counters', 'poll'],
+  // ~2021: ambient effects
+  glass: ['progress', 'reveal', 'spotlight', 'scrollspy'],
+  // today: all of it
+  css: ['progress', 'reveal', 'scrollspy', 'counters', 'table', 'poll', 'copy', 'timeOnPage'],
+};
+
+export function mount(era = 'css') {
   const cleanups = [];
   const ctx = {
+    era,
     reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
     cleanup: (fn) => cleanups.push(fn),
     on(target, type, handler, options) {
@@ -18,14 +38,9 @@ export function mount() {
   };
 
   setupTools(ctx);
-  setupProgressBar(ctx);
-  setupReveal(ctx);
-  setupScrollspy(ctx);
-  setupCounters(ctx);
-  setupTable(ctx);
-  setupPoll(ctx);
-  setupCopyButtons(ctx);
-  setupTimeOnPage(ctx);
+  for (const name of ERA_FEATURES[era] ?? ERA_FEATURES.css) {
+    FEATURES[name](ctx);
+  }
 
   return () => {
     while (cleanups.length) cleanups.pop()();
@@ -53,7 +68,7 @@ function badge(ctx, target, label, position = 'beforeend') {
   target.insertAdjacentElement(position, ctx.add(node));
 }
 
-// ---------- tools: theme switch + badge toggle ----------
+// ---------- tools: label switch (+ theme switch in the modern era) ----------
 
 function setupTools(ctx) {
   const bar = document.querySelector('.layer-controls--top');
@@ -61,19 +76,22 @@ function setupTools(ctx) {
   const root = document.documentElement;
   const tools = ctx.add(el('div', { className: 'js-tools' }));
 
-  const themeBtn = el('button', { type: 'button' });
-  const isDark = () =>
-    root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-  const renderTheme = () => {
-    themeBtn.textContent = isDark() ? '☀️ Light theme' : '🌙 Dark theme';
-    themeBtn.setAttribute('aria-label', isDark() ? 'Switch to light theme' : 'Switch to dark theme');
-  };
-  ctx.on(themeBtn, 'click', () => {
-    root.dataset.theme = isDark() ? 'light' : 'dark';
+  // Only the modern stylesheet has a dark theme to switch to.
+  const themeBtn = ctx.era === 'css' ? el('button', { type: 'button' }) : null;
+  if (themeBtn) {
+    const isDark = () =>
+      root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    const renderTheme = () => {
+      themeBtn.textContent = isDark() ? '☀️ Light theme' : '🌙 Dark theme';
+      themeBtn.setAttribute('aria-label', isDark() ? 'Switch to light theme' : 'Switch to dark theme');
+    };
+    ctx.on(themeBtn, 'click', () => {
+      root.dataset.theme = isDark() ? 'light' : 'dark';
+      renderTheme();
+    });
     renderTheme();
-  });
-  renderTheme();
-  ctx.cleanup(() => delete root.dataset.theme);
+    ctx.cleanup(() => delete root.dataset.theme);
+  }
 
   const badgeToggle = el('input', { type: 'checkbox', checked: true });
   const badgeLabel = el('label');
@@ -81,7 +99,7 @@ function setupTools(ctx) {
   ctx.on(badgeToggle, 'change', () => root.classList.toggle('hide-js-badges', !badgeToggle.checked));
   ctx.cleanup(() => removeClass(root, 'hide-js-badges'));
 
-  tools.append(themeBtn, badgeLabel);
+  tools.append(...(themeBtn ? [themeBtn] : []), badgeLabel);
   bar.querySelector('.layer-note')?.before(tools);
 }
 
@@ -236,41 +254,43 @@ function setupCounters(ctx) {
 
 // ---------- sortable + filterable table ----------
 
-function setupTable(ctx) {
+function setupTable(ctx, { filter = true } = {}) {
   const table = document.getElementById('milestones-table');
   if (!table) return;
   const tbody = table.tBodies[0];
   const originalRows = [...tbody.rows];
   const originalNodes = [...tbody.childNodes];
   const headers = [...table.tHead.rows[0].cells];
-  badge(ctx, table.caption, 'sort & filter');
+  badge(ctx, table.caption, filter ? 'sort & filter' : 'sortable columns');
 
-  // Filter box above the table
-  const tools = ctx.add(el('div', { className: 'table-tools' }));
-  const label = el('label', {}, 'Filter milestones');
-  const input = el('input', { type: 'search', placeholder: 'Try “CSS”, “Netscape” or “2005”' });
-  const count = el('span', { className: 'table-count' });
-  count.setAttribute('aria-live', 'polite');
-  label.append(input);
-  tools.append(label, count);
-  table.closest('.table-wrap').before(tools);
+  if (filter) {
+    // Filter box above the table
+    const tools = ctx.add(el('div', { className: 'table-tools' }));
+    const label = el('label', {}, 'Filter milestones');
+    const input = el('input', { type: 'search', placeholder: 'Try “CSS”, “Netscape” or “2005”' });
+    const count = el('span', { className: 'table-count' });
+    count.setAttribute('aria-live', 'polite');
+    label.append(input);
+    tools.append(label, count);
+    table.closest('.table-wrap').before(tools);
 
-  const empty = ctx.add(el('p', { className: 'no-results', hidden: true }, 'No milestones match that filter.'));
-  table.after(empty);
+    const empty = ctx.add(el('p', { className: 'no-results', hidden: true }, 'No milestones match that filter.'));
+    table.after(empty);
 
-  const applyFilter = () => {
-    const query = input.value.trim().toLowerCase();
-    let shown = 0;
-    for (const row of originalRows) {
-      const match = !query || row.textContent.toLowerCase().includes(query);
-      row.hidden = !match;
-      if (match) shown++;
-    }
-    count.textContent = `Showing ${shown} of ${originalRows.length}`;
-    empty.hidden = shown > 0;
-  };
-  ctx.on(input, 'input', applyFilter);
-  applyFilter();
+    const applyFilter = () => {
+      const query = input.value.trim().toLowerCase();
+      let shown = 0;
+      for (const row of originalRows) {
+        const match = !query || row.textContent.toLowerCase().includes(query);
+        row.hidden = !match;
+        if (match) shown++;
+      }
+      count.textContent = `Showing ${shown} of ${originalRows.length}`;
+      empty.hidden = shown > 0;
+    };
+    ctx.on(input, 'input', applyFilter);
+    applyFilter();
+  }
 
   // Sort buttons in the column headers
   let sortState = { column: -1, dir: 1 };
@@ -412,6 +432,7 @@ function setupPoll(ctx) {
 
 function setupCopyButtons(ctx) {
   if (!navigator.clipboard) return;
+  badge(ctx, document.querySelector('#html h2'), 'copy buttons on code');
   for (const pre of document.querySelectorAll('main pre')) {
     const button = ctx.add(el('button', { type: 'button', className: 'copy-btn' }, 'Copy'));
     let timer = 0;
@@ -451,3 +472,215 @@ function setupTimeOnPage(ctx) {
   const interval = setInterval(render, 1000);
   ctx.cleanup(() => clearInterval(interval));
 }
+
+// ---------- typewriter intro (DHTML era) ----------
+
+function setupTypewriter(ctx) {
+  const lead = document.querySelector('.site-header .lead');
+  if (!lead) return;
+  badge(ctx, lead, 'typed out live', 'afterend');
+  if (ctx.reducedMotion) return;
+
+  const original = lead.textContent;
+  lead.style.minHeight = `${lead.offsetHeight}px`; // keep the layout from jumping while it types
+  lead.classList.add('is-typing');
+  let length = 0;
+  const timer = setInterval(() => {
+    length += 2;
+    lead.textContent = original.slice(0, length);
+    if (length >= original.length) {
+      clearInterval(timer);
+      finish();
+    }
+  }, 28);
+
+  const finish = () => {
+    removeClass(lead, 'is-typing');
+    lead.style.removeProperty('min-height');
+    if (!lead.getAttribute('style')) lead.removeAttribute('style');
+  };
+
+  ctx.cleanup(() => {
+    clearInterval(timer);
+    lead.textContent = original;
+    finish();
+  });
+}
+
+// ---------- neon cursor trail (DHTML era) ----------
+
+function setupCursorTrail(ctx) {
+  badge(ctx, document.querySelector('#toc-title'), 'neon cursor trail');
+  if (ctx.reducedMotion) return;
+
+  const dots = new Set();
+  let last = 0;
+  ctx.on(document, 'pointermove', (event) => {
+    if (event.pointerType !== 'mouse') return;
+    const now = performance.now();
+    if (now - last < 45) return;
+    last = now;
+    const dot = el('div', { className: 'trail-dot' });
+    dot.style.left = `${event.clientX}px`;
+    dot.style.top = `${event.clientY}px`;
+    dot.setAttribute('aria-hidden', 'true');
+    dot.addEventListener('animationend', () => {
+      dot.remove();
+      dots.delete(dot);
+    });
+    document.body.append(dot);
+    dots.add(dot);
+  });
+  ctx.cleanup(() => dots.forEach((dot) => dot.remove()));
+}
+
+// ---------- "Skip intro" while the loading splash plays (DHTML era) ----------
+
+function setupSkipIntro(ctx) {
+  const splash = getComputedStyle(document.body, '::before');
+  if (splash.display === 'none' || splash.visibility !== 'visible') return; // the splash is already over
+
+  const root = document.documentElement;
+  const button = ctx.add(el('button', { type: 'button', className: 'skip-intro' }, 'Skip intro »'));
+  document.body.append(button);
+  ctx.on(button, 'click', () => {
+    root.classList.add('skip-intro-now');
+    button.remove();
+  });
+  const timer = setTimeout(() => button.remove(), 2800);
+  ctx.cleanup(() => {
+    clearTimeout(timer);
+    removeClass(root, 'skip-intro-now');
+  });
+}
+
+// ---------- lightbox (Ajax era) ----------
+
+function setupLightbox(ctx) {
+  const images = [...document.querySelectorAll('main figure img')];
+  if (!images.length) return;
+  badge(ctx, document.querySelector('#intro figcaption'), 'click an image to enlarge', 'afterend');
+
+  let box = null;
+  let opener = null;
+  const close = () => {
+    box?.remove();
+    box = null;
+    opener?.focus({ preventScroll: true });
+  };
+  const open = (image) => {
+    opener = image;
+    box = el('div', { className: 'lightbox' });
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    box.setAttribute('aria-label', image.alt);
+    const big = el('img', { src: image.currentSrc || image.src, alt: image.alt });
+    const caption = el('p', {}, image.closest('figure')?.querySelector('figcaption')?.textContent ?? image.alt);
+    const closeButton = el('button', { type: 'button' }, 'Close ✕');
+    box.append(big, caption, closeButton);
+    box.addEventListener('click', close);
+    document.body.append(box);
+    closeButton.focus();
+  };
+
+  images.forEach((image) => {
+    image.classList.add('zoomable');
+    image.tabIndex = 0;
+    image.setAttribute('role', 'button');
+    image.setAttribute('aria-label', `Enlarge: ${image.alt}`);
+    ctx.on(image, 'click', () => open(image));
+    ctx.on(image, 'keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        open(image);
+      }
+    });
+  });
+  ctx.on(document, 'keydown', (event) => {
+    if (event.key === 'Escape' && box) close();
+  });
+
+  ctx.cleanup(() => {
+    box?.remove();
+    for (const image of images) {
+      removeClass(image, 'zoomable');
+      image.removeAttribute('tabindex');
+      image.removeAttribute('role');
+      image.removeAttribute('aria-label');
+    }
+  });
+}
+
+// ---------- smooth scrolling for the contents links (jQuery era) ----------
+
+function setupSmoothScroll(ctx) {
+  badge(ctx, document.querySelector('#toc-title'), 'smooth scrolling');
+  ctx.on(document, 'click', (event) => {
+    const link = event.target.closest?.('.toc a[href^="#"]');
+    const target = link && document.getElementById(link.getAttribute('href').slice(1));
+    if (!target) return;
+    event.preventDefault();
+    target.scrollIntoView({ behavior: ctx.reducedMotion ? 'auto' : 'smooth', block: 'start' });
+  });
+}
+
+// ---------- back to top (jQuery / Bootstrap eras) ----------
+
+function setupBackToTop(ctx) {
+  const button = ctx.add(el('button', { type: 'button', className: 'back-to-top' }, '↑ Top'));
+  button.setAttribute('aria-label', 'Back to top');
+  document.body.append(button);
+
+  const update = () => {
+    const shown = scrollY > 500;
+    button.classList.toggle('is-shown', shown);
+    button.tabIndex = shown ? 0 : -1;
+    button.setAttribute('aria-hidden', String(!shown));
+  };
+  ctx.on(window, 'scroll', update, { passive: true });
+  ctx.on(button, 'click', () => scrollTo({ top: 0, behavior: ctx.reducedMotion ? 'auto' : 'smooth' }));
+  update();
+}
+
+// ---------- cursor spotlight (glass era) ----------
+
+function setupSpotlight(ctx) {
+  badge(ctx, document.querySelector('.site-header .kicker'), 'cursor spotlight', 'afterend');
+  if (ctx.reducedMotion) return;
+
+  const light = ctx.add(el('div', { className: 'spotlight' }));
+  light.setAttribute('aria-hidden', 'true');
+  document.body.append(light);
+  let frame = 0;
+  ctx.on(document, 'pointermove', (event) => {
+    if (event.pointerType !== 'mouse') return;
+    const { clientX, clientY } = event;
+    frame ||= requestAnimationFrame(() => {
+      frame = 0;
+      light.style.setProperty('--mx', `${clientX}px`);
+      light.style.setProperty('--my', `${clientY}px`);
+    });
+  });
+  ctx.cleanup(() => cancelAnimationFrame(frame));
+}
+
+// ---------- which features exist ----------
+
+const FEATURES = {
+  progress: setupProgressBar,
+  reveal: setupReveal,
+  scrollspy: setupScrollspy,
+  counters: setupCounters,
+  table: (ctx) => setupTable(ctx, { filter: true }),
+  sortTable: (ctx) => setupTable(ctx, { filter: false }),
+  poll: setupPoll,
+  copy: setupCopyButtons,
+  timeOnPage: setupTimeOnPage,
+  typewriter: setupTypewriter,
+  cursorTrail: setupCursorTrail,
+  skipIntro: setupSkipIntro,
+  lightbox: setupLightbox,
+  smoothScroll: setupSmoothScroll,
+  backToTop: setupBackToTop,
+  spotlight: setupSpotlight,
+};

@@ -422,3 +422,21 @@ textarea {
     transition: none;
   }
 }
+
+/* Colours for what JavaScript adds in this era (see js.css) */
+:root {
+  --js-text: #ffffff;
+  --js-muted: rgba(255, 255, 255, 0.8);
+  --js-surface: rgba(255, 255, 255, 0.14);
+  --js-surface-2: rgba(255, 255, 255, 0.2);
+  --js-border: rgba(255, 255, 255, 0.45);
+  --js-accent: #8b5cf6;
+  --js-accent-text: #ffffff;
+  --js-ok: #67e8f9;
+  --js-bad: #fda4af;
+  --js-radius: 16px;
+  --js-pill: 999px;
+  --js-trail: #a5f3fc;
+  --js-progress: linear-gradient(90deg, #22d3ee, #a855f7, #ec4899);
+  --js-reveal-blur: blur(10px);
+}

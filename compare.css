@@ -102,6 +102,32 @@ select:hover {
   border-color: var(--accent);
 }
 
+.side {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+}
+
+.pickers .js-pick {
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.pickers .js-pick:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.pickers .js-pick:has(input:disabled) {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .notice {
   margin: 0;
   padding: 1rem;

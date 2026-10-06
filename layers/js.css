@@ -1,0 +1,435 @@
+/* Styles for what the JavaScript layer adds (layers/app.js).
+   Loaded only while JavaScript is on, in any era. app.js adds and removes
+   classes and elements; how they look lives here.
+
+   Each era sets the --js-* variables below to match its own look. These
+   defaults use :where() so they have no weight and never override an era. */
+
+:where(:root) {
+  --js-text: #1c1b29;
+  --js-muted: #5d5b72;
+  --js-surface: #ffffff;
+  --js-surface-2: #f0eefa;
+  --js-border: #cfcbe6;
+  --js-accent: #5b4bdb;
+  --js-accent-text: #ffffff;
+  --js-ok: #0c8599;
+  --js-bad: #c2255c;
+  --js-radius: 8px;
+  --js-pill: 999px;
+  --js-shadow: none;
+  --js-trail: #5b4bdb;
+  --js-progress: var(--js-accent);
+  --js-reveal-blur: none;
+  --js-code-text: #e8e6f5;
+}
+
+/* ---------- Reveal on scroll ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  filter: var(--js-reveal-blur);
+  transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* ---------- Reading progress bar (along the bottom of the controls bar) ---------- */
+.read-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 3px;
+  pointer-events: none;
+}
+
+.read-progress span {
+  display: block;
+  height: 100%;
+  background: var(--js-progress);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+/* ---------- "⚡ JS" labels ---------- */
+.js-badge {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 0 0.5rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: #fff3bf;
+  color: #5c4500;
+  border: 1px solid #f2c94c;
+  font: 700 0.72rem/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-style: normal;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-shadow: none;
+  white-space: nowrap;
+}
+
+.hide-js-badges .js-badge {
+  display: none;
+}
+
+/* ---------- Tools in the controls bar (label switch, theme switch) ---------- */
+.js-tools {
+  order: 2;
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+}
+
+.js-tools button {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--ui-radius, 8px);
+  background: var(--ui-btn-bg, var(--js-surface-2));
+  color: var(--ui-btn-text, var(--js-text));
+  border: 1px solid var(--ui-btn-border, var(--js-border));
+  cursor: pointer;
+}
+
+.js-tools label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.js-tools input {
+  accent-color: var(--js-accent);
+}
+
+/* ---------- Scrollspy: the current section in the contents ---------- */
+.toc a.is-active {
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 var(--js-accent);
+}
+
+/* ---------- Sortable + filterable table ---------- */
+.table-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.table-tools label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+}
+
+.table-tools input {
+  font: inherit;
+  color: var(--js-text);
+  background: var(--js-surface);
+  border: 2px solid var(--js-border);
+  border-radius: var(--js-pill);
+  padding: 0.4rem 1rem;
+  min-width: 14rem;
+}
+
+.table-tools input:focus {
+  border-color: var(--js-accent);
+  outline: none;
+}
+
+.table-count {
+  color: var(--js-muted);
+  font-size: 0.9rem;
+}
+
+.sort-btn {
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.sort-btn:focus-visible {
+  outline: 3px solid var(--js-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.sort-btn::after {
+  content: "↕";
+  opacity: 0.5;
+}
+
+th[aria-sort="ascending"] .sort-btn::after {
+  content: "↑";
+  opacity: 1;
+}
+
+th[aria-sort="descending"] .sort-btn::after {
+  content: "↓";
+  opacity: 1;
+}
+
+.no-results {
+  padding: 1rem;
+  margin: 0;
+  color: var(--js-muted);
+}
+
+/* ---------- Form feedback ---------- */
+.char-count {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--js-muted);
+  font-size: 0.85rem;
+}
+
+.poll-feedback {
+  min-height: 1.65em;
+  margin: 0 0 1rem;
+  color: var(--js-muted);
+}
+
+.poll-feedback.is-error {
+  color: var(--js-bad);
+  font-weight: 700;
+}
+
+.poll-result {
+  padding: 1rem 1.25rem;
+  border-radius: var(--js-radius);
+  background: var(--js-surface-2);
+  color: var(--js-text);
+  border-left: 4px solid var(--js-ok);
+  font-weight: 600;
+  animation: js-yellow-fade 1.8s ease-out;
+}
+
+/* The "yellow fade technique" of the Ajax days: new content flashes, then settles */
+@keyframes js-yellow-fade {
+  from {
+    box-shadow: inset 0 0 0 100px rgba(255, 235, 59, 0.55);
+  }
+
+  to {
+    box-shadow: inset 0 0 0 100px rgba(255, 235, 59, 0);
+  }
+}
+
+/* ---------- Copy buttons on code ---------- */
+main pre {
+  position: relative;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--js-radius);
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--js-code-text);
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.time-on-page {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Typewriter intro (DHTML era) ---------- */
+.is-typing::after {
+  content: "▌";
+  margin-left: 2px;
+  animation: js-caret 0.8s steps(1) infinite;
+}
+
+@keyframes js-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ---------- Neon cursor trail (DHTML era) ---------- */
+.trail-dot {
+  position: fixed;
+  z-index: 60;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--js-trail);
+  box-shadow: 0 0 10px 2px var(--js-trail);
+  pointer-events: none;
+  animation: js-trail 0.7s ease-out forwards;
+}
+
+@keyframes js-trail {
+  to {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+}
+
+/* ---------- "Skip intro" while the loading splash plays (DHTML era) ---------- */
+.skip-intro {
+  position: fixed;
+  left: 50%;
+  bottom: 2rem;
+  z-index: 45;
+  transform: translateX(-50%);
+  font: inherit;
+  font-weight: 700;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid var(--js-accent);
+  border-radius: var(--js-radius);
+  background: #000000;
+  color: var(--js-accent);
+  cursor: pointer;
+}
+
+.skip-intro:hover {
+  background: var(--js-accent);
+  color: var(--js-accent-text);
+}
+
+/* ---------- Lightbox (Ajax era) ---------- */
+.zoomable {
+  cursor: zoom-in;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  gap: 0.75rem;
+  align-content: center;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.82);
+  color: #ffffff;
+  text-align: center;
+  cursor: zoom-out;
+}
+
+.lightbox img {
+  max-width: min(92vw, 900px);
+  max-height: 72vh;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  border: 6px solid #ffffff;
+  border-radius: var(--js-radius);
+  background: #ffffff;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  -webkit-box-reflect: unset;
+}
+
+.lightbox p {
+  margin: 0;
+  max-width: 40rem;
+  font-size: 0.95rem;
+}
+
+.lightbox button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font: inherit;
+  font-weight: 700;
+  padding: 0.4rem 1rem;
+  border: 1px solid #ffffff;
+  border-radius: var(--js-pill);
+  background: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* ---------- Back to top (jQuery / Bootstrap eras) ---------- */
+.back-to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 55;
+  font: inherit;
+  font-weight: 700;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--js-border);
+  border-radius: var(--js-pill);
+  background: var(--js-accent);
+  border-color: var(--js-accent);
+  color: var(--js-accent-text);
+  box-shadow: var(--js-shadow, none);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.back-to-top.is-shown {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* ---------- Cursor spotlight (glass era) ---------- */
+.spotlight {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 30%), rgba(255, 255, 255, 0.13), transparent 70%);
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 640px) {
+  .js-tools button {
+    padding: 0.25rem 0.7rem;
+  }
+
+  .table-tools input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .skip-intro {
+    bottom: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poll-result,
+  .is-typing::after,
+  .trail-dot {
+    animation: none;
+  }
+
+  .reveal,
+  .back-to-top {
+    transition: none;
+  }
+}

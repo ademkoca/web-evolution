@@ -414,3 +414,26 @@ body::after {
     transition: none;
   }
 }
+
+/* Colours for what JavaScript adds in this era (see js.css) */
+:root {
+  --js-text: #d8f6ff;
+  --js-muted: #8fb3c0;
+  --js-surface: #03121c;
+  --js-surface-2: #0a2a3a;
+  --js-border: #1b6f8a;
+  --js-accent: #ff9d2a;
+  --js-accent-text: #000000;
+  --js-ok: #38e1ff;
+  --js-bad: #ff6b6b;
+  --js-radius: 0;
+  --js-pill: 0;
+  --js-trail: #38e1ff;
+  --js-code-text: #7dffb3;
+}
+
+/* "Skip intro" (added by JavaScript) ends the loading splash early */
+html.skip-intro-now body::before,
+html.skip-intro-now body::after {
+  display: none;
+}

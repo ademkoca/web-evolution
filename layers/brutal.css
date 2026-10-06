@@ -464,3 +464,21 @@ textarea {
   text-decoration-thickness: 3px;
   text-decoration-color: var(--pink);
 }
+
+/* Colours for what JavaScript adds in this era (see js.css) */
+:root {
+  --js-text: #000000;
+  --js-muted: #333333;
+  --js-surface: #ffffff;
+  --js-surface-2: #fff3b0;
+  --js-border: #000000;
+  --js-accent: #ff90e8;
+  --js-accent-text: #000000;
+  --js-ok: #000000;
+  --js-bad: #c2185b;
+  --js-radius: 0;
+  --js-pill: 0;
+  --js-trail: #ff90e8;
+  --js-progress: #000000;
+  --js-shadow: 3px 3px 0 #000000;
+}

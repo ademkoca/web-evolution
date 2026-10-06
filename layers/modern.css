@@ -69,6 +69,35 @@
   color-scheme: dark;
 }
 
+/* Variables used by the controls bar and by js.css, mapped to this era's tokens
+   (they follow light/dark automatically). */
+:root {
+  --ui-bg: var(--surface);
+  --ui-text: var(--text);
+  --ui-muted: var(--muted);
+  --ui-border: var(--border);
+  --ui-btn-bg: var(--surface-2);
+  --ui-btn-text: var(--text);
+  --ui-btn-border: var(--border);
+  --ui-primary-bg: var(--primary);
+  --ui-primary-text: var(--on-primary);
+  --ui-radius: 999px;
+  --js-text: var(--text);
+  --js-muted: var(--muted);
+  --js-surface: var(--surface);
+  --js-surface-2: var(--surface-2);
+  --js-border: var(--border);
+  --js-accent: var(--primary);
+  --js-accent-text: var(--on-primary);
+  --js-ok: var(--teal);
+  --js-bad: var(--pink);
+  --js-radius: 12px;
+  --js-pill: 999px;
+  --js-trail: var(--primary);
+  --js-progress: var(--hero);
+  --js-code-text: var(--code-text);
+}
+
 /* ---------- Base ---------- */
 *,
 *::before,
@@ -203,16 +232,21 @@ pre code {
   margin: 0;
 }
 
+/* The highlighted year in the timeline and the JavaScript button already show where
+   you are, so the "Now showing" line is kept for screen readers only. */
 .layer-status {
-  font-weight: 600;
-  font-size: 0.95rem;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .layer-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-left: auto !important;
 }
 
 .layer-note {
@@ -656,9 +690,7 @@ textarea:focus {
   outline: none;
 }
 
-#poll-form button,
-.js-tools button,
-.copy-btn {
+#poll-form button {
   font: inherit;
   font-weight: 600;
   padding: 0.65rem 1.4rem;
@@ -697,205 +729,7 @@ textarea:focus {
   font-weight: 600;
 }
 
-/* ---------- Hooks for the JavaScript layer ----------
-   app.js only adds and removes these classes; how they look lives here. */
-.reveal {
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
-.read-progress {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: 3px;
-  pointer-events: none;
-}
-
-.read-progress span {
-  display: block;
-  height: 100%;
-  background: var(--hero);
-  transform-origin: left;
-  transform: scaleX(0);
-}
-
-.js-badge {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 0.5rem;
-  padding: 0.15rem 0.55rem;
-  border-radius: 999px;
-  background: #fff3bf;
-  color: #5c4500;
-  border: 1px solid #f2c94c;
-  font-size: 0.72rem;
-  font-weight: 700;
-  font-style: normal;
-  letter-spacing: 0.02em;
-  text-transform: none;
-  line-height: 1.5;
-  white-space: nowrap;
-}
-
-.hide-js-badges .js-badge {
-  display: none;
-}
-
-.js-tools {
-  order: 2;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.88rem;
-}
-
-.js-tools button {
-  font-size: 0.85rem;
-  padding: 0.35rem 0.9rem;
-  background: var(--surface-2);
-  color: var(--text);
-  border: 1px solid var(--border);
-}
-
-.js-tools button:hover {
-  border-color: var(--primary);
-}
-
-.js-tools label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  cursor: pointer;
-}
-
-.js-tools input {
-  accent-color: var(--primary);
-}
-
-.table-tools {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem 1rem;
-  margin-bottom: 0.9rem;
-}
-
-.table-tools label {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.6rem;
-  font-weight: 600;
-}
-
-.table-tools input {
-  font: inherit;
-  color: var(--text);
-  background: var(--surface);
-  border: 2px solid var(--border);
-  border-radius: 999px;
-  padding: 0.4rem 1rem;
-  min-width: 14rem;
-}
-
-.table-tools input:focus {
-  border-color: var(--primary);
-  outline: none;
-}
-
-.table-count {
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-.sort-btn {
-  all: unset;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.sort-btn:focus-visible {
-  outline: 3px solid var(--primary);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
-.sort-btn::after {
-  content: "↕";
-  opacity: 0.45;
-}
-
-th[aria-sort="ascending"] .sort-btn::after {
-  content: "↑";
-  opacity: 1;
-}
-
-th[aria-sort="descending"] .sort-btn::after {
-  content: "↓";
-  opacity: 1;
-}
-
-.no-results {
-  padding: 1rem;
-  color: var(--muted);
-  margin: 0;
-}
-
-.char-count {
-  display: block;
-  margin-top: 0.35rem;
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-
-.poll-feedback {
-  margin: 0 0 1rem;
-  min-height: 1.65em;
-  color: var(--muted);
-}
-
-.poll-feedback.is-error {
-  color: var(--pink);
-  font-weight: 600;
-}
-
-.poll-result {
-  padding: 1rem 1.25rem;
-  border-radius: 12px;
-  background: var(--surface-2);
-  border-left: 4px solid var(--teal);
-  font-weight: 600;
-}
-
-.copy-btn {
-  position: absolute;
-  top: 0.6rem;
-  right: 0.6rem;
-  font-size: 0.78rem;
-  padding: 0.25rem 0.75rem;
-  background: rgb(255 255 255 / 0.12);
-  color: var(--code-text);
-}
-
-.copy-btn:hover {
-  background: rgb(255 255 255 / 0.22);
-}
-
-.time-on-page {
-  font-variant-numeric: tabular-nums;
-}
+/* The styles for what JavaScript adds live in js.css. */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -912,6 +746,22 @@ th[aria-sort="descending"] .sort-btn::after {
   }
 
   /* Keep the always-visible bar compact on phones */
+  /* Phones: a short status sentence only (the full text stays for screen readers
+     and in the "What just changed?" panel), and no "Remove everything" button
+     (the timeline can jump to 1991). */
+  .js-status__more {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .layer-btn--reset {
+    display: none;
+  }
+
   .layer-controls--top {
     gap: 0.4rem 0.75rem;
     padding-block: 0.5rem;
@@ -942,10 +792,6 @@ th[aria-sort="descending"] .sort-btn::after {
     padding: 0.4rem 0.8rem;
   }
 
-  .js-tools button {
-    padding: 0.3rem 0.75rem;
-  }
-
   /* "What just changed?": fit the screen, wrap code instead of scrolling sideways */
   .what-changed__body {
     max-height: 24vh;
@@ -958,11 +804,6 @@ th[aria-sort="descending"] .sort-btn::after {
     overflow-x: hidden;
     font-size: 0.72rem;
     max-height: 7rem;
-  }
-
-  .table-tools input {
-    min-width: 0;
-    width: 100%;
   }
 
   .stat-number {
@@ -1043,4 +884,30 @@ th[aria-sort="descending"] .sort-btn::after {
 a.layer-btn {
   display: inline-block;
   text-decoration: none;
+}
+
+/* ---------- JavaScript switch in the controls bar ---------- */
+.layer-btn--js.is-on {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.layer-btn--js[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.js-status {
+  order: 2;
+  flex: 1 1 22rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  .js-status {
+    font-size: 0.8rem;
+  }
 }

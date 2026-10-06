@@ -449,3 +449,20 @@ textarea {
     font-size: 12px;
   }
 }
+
+/* Colours for what JavaScript adds in this era (see js.css) */
+:root {
+  --js-text: #333333;
+  --js-muted: #51708f;
+  --js-surface: #ffffff;
+  --js-surface-2: #eaf3fb;
+  --js-border: #8fb3d6;
+  --js-accent: #3f8f12;
+  --js-accent-text: #ffffff;
+  --js-ok: #4d9a1d;
+  --js-bad: #c2410c;
+  --js-radius: 10px;
+  --js-pill: 20px;
+  --js-trail: #4d9a1d;
+  --js-progress: linear-gradient(90deg, #8fd14f, #2a6ebb);
+}

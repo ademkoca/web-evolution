@@ -2,18 +2,17 @@
 // Each side is an iframe of index.html at one layer (?embed=1 keeps it quiet),
 // and a slider decides how much of each one you see.
 
-// Keep in sync with STAGES in controller.js.
+// Keep in sync with STAGES in controller.js (`js` says whether JavaScript can be switched on in that era).
 const ERAS = [
-  { id: 'html', year: '1991', label: 'Plain HTML' },
-  { id: 'retro', year: '1996', label: '90s styling' },
-  { id: 'flash', year: '~1999', label: 'Flash & DHTML' },
-  { id: 'web2', year: '~2006', label: 'Web 2.0' },
-  { id: 'skeuo', year: '~2010', label: 'Skeuomorphism' },
-  { id: 'flat', year: '~2013', label: 'Flat design' },
-  { id: 'brutal', year: '~2020', label: 'Neo-brutalism' },
-  { id: 'glass', year: '~2021', label: 'Glassmorphism' },
-  { id: 'css', year: 'Today', label: 'Modern CSS' },
-  { id: 'js', year: 'Today', label: 'Modern CSS + JavaScript' },
+  { id: 'html', year: '1991', label: 'Plain HTML', js: false },
+  { id: 'retro', year: '1996', label: '90s styling', js: false },
+  { id: 'flash', year: '~1999', label: 'Flash & DHTML', js: true },
+  { id: 'web2', year: '~2006', label: 'Web 2.0', js: true },
+  { id: 'skeuo', year: '~2010', label: 'Skeuomorphism', js: true },
+  { id: 'flat', year: '~2013', label: 'Flat design', js: true },
+  { id: 'brutal', year: '~2020', label: 'Neo-brutalism', js: true },
+  { id: 'glass', year: '~2021', label: 'Glassmorphism', js: true },
+  { id: 'css', year: 'Today', label: 'Modern CSS', js: true },
 ];
 
 // Only used inside the embedded copies: hide the controls bar and the Flash splash,
@@ -29,8 +28,8 @@ const $ = (id) => document.getElementById(id);
 const stage = $('stage');
 const split = $('split');
 const sides = {
-  left: { frame: $('frame-left'), select: $('left-era'), chip: $('chip-left') },
-  right: { frame: $('frame-right'), select: $('right-era'), chip: $('chip-right') },
+  left: { frame: $('frame-left'), select: $('left-era'), js: $('left-js'), chip: $('chip-left') },
+  right: { frame: $('frame-right'), select: $('right-era'), js: $('right-js'), chip: $('chip-right') },
 };
 const sync = $('sync');
 
@@ -46,26 +45,33 @@ for (const { select } of Object.values(sides)) {
 
 // ---------- loading an era into a side ----------
 
-function load(side, id) {
-  const { frame, select, chip } = sides[side];
+function load(side, id, js = false) {
+  const { frame, select, chip, js: jsBox } = sides[side];
   const era = byId(id);
+  const useJs = js && era.js;
   select.value = id;
-  chip.textContent = `${era.year} · ${era.label}`;
-  frame.title = `${side === 'left' ? 'Left' : 'Right'} era: ${era.label}`;
-  frame.src = `index.html?layer=${id}&embed=1`;
+  jsBox.disabled = !era.js;
+  jsBox.checked = useJs;
+  jsBox.title = era.js ? '' : 'JavaScript is not available in this era';
+  chip.textContent = `${era.year} · ${era.label}${useJs ? ' · ⚡ JS' : ''}`;
+  frame.title = `${side === 'left' ? 'Left' : 'Right'} side: ${era.label}${useJs ? ' with JavaScript' : ''}`;
+  frame.src = `index.html?layer=${id}${useJs ? '&js=1' : ''}&embed=1`;
   updateAddress();
 }
 
 function updateAddress() {
+  const { left, right } = sides;
   const url = new URL(location.href);
-  url.search = `?left=${sides.left.select.value}&right=${sides.right.select.value}`;
+  url.search = `?left=${left.select.value}&ljs=${left.js.checked ? 1 : 0}&right=${right.select.value}&rjs=${right.js.checked ? 1 : 0}`;
   history.replaceState(null, '', url);
-  $('back-link').href = `index.html?layer=${sides.left.select.value}`;
+  $('back-link').href = `index.html?layer=${left.select.value}${left.js.checked ? '&js=1' : ''}`;
 }
 
 for (const side of ['left', 'right']) {
-  sides[side].select.addEventListener('change', () => load(side, sides[side].select.value));
-  sides[side].frame.addEventListener('load', () => onFrameLoad(side));
+  const { select, js, frame } = sides[side];
+  select.addEventListener('change', () => load(side, select.value, js.checked));
+  js.addEventListener('change', () => load(side, select.value, js.checked));
+  frame.addEventListener('load', () => onFrameLoad(side));
 }
 
 // Swapping reloads both sides, so remember where you were and restore it once both are back.
@@ -74,9 +80,9 @@ let pending = null;
 $('swap').addEventListener('click', () => {
   const win = sides.left.frame.contentWindow;
   pending = win?.document.body ? { anchor: readAnchor(win), remaining: 2 } : null;
-  const left = sides.left.select.value;
-  load('left', sides.right.select.value);
-  load('right', left);
+  const left = { id: sides.left.select.value, js: sides.left.js.checked };
+  load('left', sides.right.select.value, sides.right.js.checked);
+  load('right', left.id, left.js);
 });
 
 // ---------- scroll sync ----------
@@ -179,5 +185,5 @@ divider.addEventListener('pointercancel', endDrag);
 // ---------- start ----------
 
 setSplit(50);
-load('left', pick('left', 'retro'));
-load('right', pick('right', 'css'));
+load('left', pick('left', 'retro'), params.get('ljs') === '1');
+load('right', pick('right', 'css'), params.get('rjs') === '1');

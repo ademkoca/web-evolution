@@ -467,3 +467,21 @@ textarea {
 .site-footer p {
   margin: 4px 0;
 }
+
+/* Colours for what JavaScript adds in this era (see js.css) */
+:root {
+  --js-text: #3a2316;
+  --js-muted: #6a4a2b;
+  --js-surface: #fffef6;
+  --js-surface-2: #f1e0a8;
+  --js-border: #8a6b3d;
+  --js-accent: #a82a1c;
+  --js-accent-text: #ffffff;
+  --js-ok: #4d7a2a;
+  --js-bad: #a52a1a;
+  --js-radius: 6px;
+  --js-pill: 14px;
+  --js-trail: #a82a1c;
+  --js-progress: linear-gradient(90deg, #e8c98a, #a82a1c);
+  --js-shadow: 0 3px 6px rgba(0, 0, 0, 0.45);
+}
